@@ -1,6 +1,6 @@
-package com.testmateback.repository;
+package com.testmateback.dTestmate.repository;
 
-import com.testmateback.entity.Users;
+import com.testmateback.dTestmate.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
-package com.testmateback.dto;
+package com.testmateback.dTestmate.dto;
 
-import com.testmateback.entity.Users;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

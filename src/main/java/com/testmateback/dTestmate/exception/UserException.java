@@ -1,4 +1,4 @@
-package com.testmateback.exception;
+package com.testmateback.dTestmate.exception;
 
 import lombok.Getter;
 

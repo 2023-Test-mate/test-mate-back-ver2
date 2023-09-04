@@ -1,24 +1,22 @@
-package com.testmateback.controller;
+package com.testmateback.dTestmate.controller;
 
-import com.testmateback.dto.CreateUser;
-import com.testmateback.dto.LoginUser;
-import com.testmateback.service.UserService;
+import com.testmateback.dTestmate.dto.CreateHome;
+import com.testmateback.dTestmate.dto.CreateUser;
+import com.testmateback.dTestmate.service.HomeService;
+import com.testmateback.dTestmate.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DMakerController {
     private final UserService userService;
+    private final HomeService homeService;
 
 
     @PostMapping("/sign-up")
@@ -26,7 +24,7 @@ public class DMakerController {
             @Valid @RequestBody CreateUser.Request request
     ) {
         log.info("request : {}", request);
-        return userService.CreateUser(request);
+        return userService.createUser(request);
 
     }
 
@@ -37,5 +35,14 @@ public class DMakerController {
 //        log.info("request : {}", loginRequest);
 //        return userService.LoginUser(loginRequest);
 //    }
+
+    @PostMapping("/home")
+    public CreateHome.Response createHome(
+            @Valid @RequestBody CreateHome.Request request
+    ) {
+        log.info("request : {}", request);
+        return homeService.createHome(request);
+
+    }
 
 }
