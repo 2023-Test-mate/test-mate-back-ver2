@@ -1,9 +1,7 @@
 package com.testmateback.dTestmate.controller;
 
-import com.testmateback.dTestmate.dto.CreateHome;
-import com.testmateback.dTestmate.dto.CreateUser;
-import com.testmateback.dTestmate.service.HomeService;
-import com.testmateback.dTestmate.service.UserService;
+import com.testmateback.dTestmate.dto.*;
+import com.testmateback.dTestmate.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class DMakerController {
     private final UserService userService;
     private final HomeService homeService;
+    private final CalendarService calendarService;
+    private final GoalService goalService;
+    private final EditSubjectService editSubjectService;
+    private final TestInfoService testInfoService;
+    private final WrongNoteService wrongNoteService;
 
 
     @PostMapping("/sign-up")
@@ -45,4 +48,44 @@ public class DMakerController {
 
     }
 
+    @PostMapping("/calendar")
+    public CreateCalendar.Response createCalendar(
+            @Valid @RequestBody CreateCalendar.Request request
+    ) {
+        log.info("request : {}", request);
+        return calendarService.createCalendar(request);
+
+    }
+
+    @PostMapping("/edit-subject")
+    public CreateEditSubject.Response createEditSubject(
+            @Valid @RequestBody CreateEditSubject.Request request
+    ) {
+        log.info("request : {}", request);
+        return editSubjectService.createEditSubject(request);
+    }
+
+    @PostMapping("/goal")
+    public CreateGoal.Response createGoal(
+            @Valid @RequestBody CreateGoal.Request request
+    ) {
+        log.info("request : {} ", request);
+        return goalService.createGoal(request);
+    }
+
+    @PostMapping("/test-info")
+    public CreateTestInfo.Response createTestInfo(
+            @Valid @RequestBody CreateTestInfo.Request request
+    ) {
+        log.info("request : {} ", request);
+        return testInfoService.createTestInfo(request);
+    }
+
+    @PostMapping("/wrong-note")
+    public CreateWrongNote.Response createWrongNote(
+            @Valid @RequestBody CreateWrongNote.Request request
+    ) {
+        log.info("request : {} ", request);
+        return wrongNoteService.createWrongNote(request);
+    }
 }
