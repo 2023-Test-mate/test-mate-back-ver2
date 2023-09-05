@@ -1,9 +1,17 @@
 package com.testmateback.dTestmate.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Calendar {
     @Id
     @GeneratedValue

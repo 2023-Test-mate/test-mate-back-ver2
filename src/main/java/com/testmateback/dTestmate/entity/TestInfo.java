@@ -1,9 +1,16 @@
 package com.testmateback.dTestmate.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class TestInfo {
     @Id
     @GeneratedValue
@@ -16,12 +23,12 @@ public class TestInfo {
     @Column(nullable = false)
     private String test_semester;
     @Column(nullable = false)
-    private String test_score;
+    private int test_score;
     @Column(nullable = false)
     private String test_date;
     @Column(nullable = false)
     private String test_level;
     @Column(nullable = false)
-    private String test_target;
+    private int test_target;
 
 }

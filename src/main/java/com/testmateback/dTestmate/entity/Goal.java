@@ -25,6 +25,6 @@ public class Goal {
     @Column(nullable = false)
     private String goal;
     @Column(nullable = false)
-    private String goal_check;
+    private boolean goal_check;
 
 }

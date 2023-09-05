@@ -1,9 +1,16 @@
 package com.testmateback.dTestmate.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class EditSubject {
     @Id
     @GeneratedValue
@@ -14,6 +21,6 @@ public class EditSubject {
     @Column(nullable = false)
     private String edit_subject;
     @Column(nullable = false)
-    private String edit_photo;
+    private byte[] edit_photo;
 
 }
