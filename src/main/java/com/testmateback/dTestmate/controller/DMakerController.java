@@ -1,12 +1,18 @@
 package com.testmateback.dTestmate.controller;
 
 import com.testmateback.dTestmate.dto.*;
+import com.testmateback.dTestmate.entity.Users;
+import com.testmateback.dTestmate.repository.UserRepository;
 import com.testmateback.dTestmate.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -28,16 +34,31 @@ public class DMakerController {
     ) {
         log.info("request : {}", request);
         return userService.createUser(request);
-
     }
 
-//    @PostMapping("/login")
-//    public LoginUser.LoginResponse login(
-//            @Valid @RequestBody LoginUser.LoginRequest loginRequest
-//    ) {
-//        log.info("request : {}", loginRequest);
-//        return userService.LoginUser(loginRequest);
-//    }
+    @RestController
+    @RequestMapping("/api")
+    public class AuthController {
+
+        @Autowired
+        private UserRepository userRepository;
+
+        @PostMapping("/login")
+        public ResponseEntity<String> login(@RequestBody CreateUser.Request credentials) {
+            String email = credentials.getEmail();
+            String password = credentials.getPassword();
+
+            // 이메일로 사용자 찾기
+            Users user = userRepository.findByEmail(email);
+            if (user == null || !user.getPassword().equals(password)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+            }
+
+            // 로그인 성공
+            return ResponseEntity.ok("로그인 성공");
+        }
+
+    }
 
     @PostMapping("/home")
     public CreateHome.Response createHome(
