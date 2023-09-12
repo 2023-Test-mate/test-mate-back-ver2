@@ -19,7 +19,7 @@ public class GoalService {
     @Transactional
     public CreateGoal.Response createGoal(CreateGoal.Request request){
         Goal goal = Goal.builder()
-                .index(request.getIndex())
+                .indexes(request.getIndexes())
                 .goal_subject(request.getGoal_subject())
                 .goal_semester(request.getGoal_semester())
                 .goal(request.getGoal())

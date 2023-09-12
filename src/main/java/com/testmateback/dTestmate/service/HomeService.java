@@ -17,7 +17,7 @@ public class HomeService {
     @Transactional
     public CreateHome.Response createHome(CreateHome.Request request){
         Home home = Home.builder()
-                .index(request.getIndex())
+                .indexes(request.getIndexes())
                 .home_fail(request.getHome_fail())
                 .home_semester(request.getHome_semester())
                 .home_subject(request.getHome_subject())

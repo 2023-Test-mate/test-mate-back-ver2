@@ -19,7 +19,7 @@ public class WrongNoteService {
     @Transactional
     public CreateWrongNote.Response createWrongNote(CreateWrongNote.Request request){
         WrongNote wrongNote = WrongNote.builder()
-                .index(request.getIndex())
+                .indexes(request.getIndexes())
                 .note_subject(request.getNote_subject())
                 .note_semester(request.getNote_semester())
                 .note_photo(request.getNote_photo())

@@ -18,7 +18,7 @@ public class CalendarService {
     @Transactional
     public CreateCalendar.Response createCalendar(CreateCalendar.Request request){
         Calendar calendar = Calendar.builder()
-                .index(request.getIndex())
+                .indexes(request.getIndexes())
                 .calendar_subject(request.getCalendar_subject())
                 .calendar_date(request.getCalendar_date())
                 .build();

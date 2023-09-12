@@ -17,7 +17,7 @@ public class TestInfoService {
     @Transactional
     public CreateTestInfo.Response createTestInfo(CreateTestInfo.Request request){
         TestInfo testInfo = TestInfo.builder()
-                .index(request.getIndex())
+                .indexes(request.getIndexes())
                 .test_subject(request.getTest_subject())
                 .test_semester(request.getTest_semester())
                 .test_score(request.getTest_score())

@@ -15,7 +15,7 @@ public class CreateGoal {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String goal_subject;
         @NotNull

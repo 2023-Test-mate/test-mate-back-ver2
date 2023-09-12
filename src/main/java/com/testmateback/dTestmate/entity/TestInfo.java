@@ -11,13 +11,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "test_info")
 public class TestInfo {
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
-    private String index;
+    private String indexes;
     @Column(nullable = false)
     private String test_subject;
     @Column(nullable = false)

@@ -13,7 +13,7 @@ public class CreateEditSubject {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String edit_subject;
         @NotNull

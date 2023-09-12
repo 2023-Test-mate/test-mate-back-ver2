@@ -13,7 +13,7 @@ public class CreateWrongNote {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String note_subject;
         @NotNull

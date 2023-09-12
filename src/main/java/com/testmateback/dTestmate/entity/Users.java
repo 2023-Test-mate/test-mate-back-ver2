@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 // JPA 엔티티 리스너를 사용하여 엔티티의 변경 사항을 추적할 수 있도록 설정
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "users")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,7 +13,7 @@ public class CreateCalendar {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String calendar_subject;
         @NotNull

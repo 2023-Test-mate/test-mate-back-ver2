@@ -13,7 +13,7 @@ public class CreateHome {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String home_subject;
         @NotNull

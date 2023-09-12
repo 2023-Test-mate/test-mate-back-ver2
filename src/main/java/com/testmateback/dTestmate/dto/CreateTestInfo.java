@@ -14,7 +14,7 @@ public class CreateTestInfo {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
         private String test_subject;
         @NotNull
