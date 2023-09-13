@@ -23,11 +23,15 @@ public class CreateWrongNote {
         @NotNull
         private String solution;
         @NotNull
-        private String testStyle;
+        private String styles;
         @NotNull
         private String reason;
         @NotNull
-        private String testScope;
+        private String scopes;
+        @NotNull
+        private String stylecheck;
+        @NotNull
+        private String scopecheck;
     }
 
     @Getter
@@ -46,21 +50,27 @@ public class CreateWrongNote {
         @NotNull
         private String solution;
         @NotNull
-        private String testStyle;
+        private String styles;
         @NotNull
         private String reason;
         @NotNull
-        private String testScope;
+        private String scopes;
+        @NotNull
+        private String stylecheck;
+        @NotNull
+        private String scopecheck;
 
         public static CreateWrongNote.Response WrongNoteResponse(WrongNote wrongNote) {
-            return CreateWrongNote.Response.builder()
+            return Response.builder()
                     .subject(wrongNote.getSubject())
                     .semester(wrongNote.getSemester())
                     .photo(wrongNote.getPhoto())
                     .solution(wrongNote.getSolution())
-                    .testStyle(wrongNote.getTestStyle())
+                    .styles(wrongNote.getStyles())
                     .reason(wrongNote.getReason())
-                    .testScope(wrongNote.getTestScope())
+                    .scopes(wrongNote.getScopes())
+                    .stylecheck(wrongNote.getStylecheck())
+                    .scopecheck(wrongNote.getScopecheck())
                     .build();
         }
     }

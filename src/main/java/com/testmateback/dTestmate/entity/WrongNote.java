@@ -28,10 +28,14 @@ public class WrongNote {
     @Column(nullable = false)
     private String solution;
     @Column(nullable = false)
-    private String testStyle;
+    private String styles;
     @Column(nullable = false)
     private String reason;
     @Column(nullable = false)
-    private String testScope;
+    private String scopes;
+    @Column(nullable = false)
+    private String scopecheck;
+    @Column(nullable = false)
+    private String stylecheck;
 
 }

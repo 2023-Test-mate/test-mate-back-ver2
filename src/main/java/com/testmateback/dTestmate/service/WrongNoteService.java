@@ -24,9 +24,11 @@ public class WrongNoteService {
                 .semester(request.getSemester())
                 .photo(request.getPhoto())
                 .solution(request.getSolution())
-                .testStyle(request.getTestStyle())
+                .styles(request.getStyles())
                 .reason(request.getReason())
-                .testScope(request.getTestScope())
+                .scopes(request.getScopes())
+                .stylecheck(request.getStylecheck())
+                .scopecheck(request.getScopecheck())
                 .build();
 
         wrongNoteRepository.save(wrongNote);
