@@ -34,8 +34,15 @@ public class WrongNote {
     @Column(nullable = false)
     private String scopes;
     @Column(nullable = false)
-    private String scopecheck;
+    private boolean scopecheck;
     @Column(nullable = false)
-    private String reasoncheck;
+    private boolean reasoncheck;
 
+    public boolean getReasoncheck() {
+        return reasoncheck;
+    }
+
+    public boolean getScopecheck() {
+        return scopecheck;
+    }
 }
