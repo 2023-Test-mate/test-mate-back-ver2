@@ -17,13 +17,18 @@ public class CreateGoal {
         @NotNull
         private String indexes;
         @NotNull
-        private String goal_subject;
+        private String subject;
         @NotNull
-        private String goal_semester;
+        private String semester;
         @NotNull
         private String goal;
         @NotNull
-        private boolean goal_check;
+        private boolean checks;
+
+
+        public boolean getCheck() {
+            return checks;
+        }
     }
 
     @Getter
@@ -34,20 +39,20 @@ public class CreateGoal {
     @ToString
     public static class Response {
         @NotNull
-        private String goal_subject;
+        private String subject;
         @NotNull
-        private String goal_semester;
+        private String semester;
         @NotNull
         private String goal;
         @NotNull
-        private boolean goal_check;
+        private boolean checks;
 
         public static CreateGoal.Response GoalResponse(Goal goal) {
-            return CreateGoal.Response.builder()
-                    .goal_subject(goal.getGoal_subject())
-                    .goal_semester(goal.getGoal_semester())
+            return Response.builder()
+                    .subject(goal.getGoal())
+                    .semester(goal.getSemester())
                     .goal(goal.getGoal())
-                    .goal_check(goal.isGoal_check())
+                    .checks(goal.getCheck())
                     .build();
         }
     }

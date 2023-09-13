@@ -1,7 +1,10 @@
 package com.testmateback.dTestmate.controller;
 
 import com.testmateback.dTestmate.dto.*;
-import com.testmateback.dTestmate.entity.Users;
+import com.testmateback.dTestmate.entity.*;
+import com.testmateback.dTestmate.repository.EditSubjectRepository;
+import com.testmateback.dTestmate.repository.GoalRepository;
+import com.testmateback.dTestmate.repository.TestInfoRepository;
 import com.testmateback.dTestmate.repository.UserRepository;
 import com.testmateback.dTestmate.service.*;
 import jakarta.validation.Valid;
@@ -10,10 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -44,20 +48,23 @@ public class DMakerController {
         private UserRepository userRepository;
 
         @PostMapping("/login")
-        public ResponseEntity<String> login(@RequestBody CreateUser.Request credentials) {
+        public ResponseEntity<Map<String, String>> login(@RequestBody CreateUser.Request credentials) {
             String email = credentials.getEmail();
             String password = credentials.getPassword();
 
             // 이메일로 사용자 찾기
             Users user = userRepository.findByEmail(email);
             if (user == null || !user.getPassword().equals(password)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "로그인 실패");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
             // 로그인 성공
-            return ResponseEntity.ok("로그인 성공");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "로그인 성공");
+            return ResponseEntity.ok(response);
         }
-
     }
 
     @PostMapping("/home")
@@ -109,4 +116,33 @@ public class DMakerController {
         log.info("request : {} ", request);
         return wrongNoteService.createWrongNote(request);
     }
+
+//    @RestController
+//    @RequestMapping("/goal")
+//    public class GoalController {
+//
+//        @Autowired
+//        private GoalRepository goalRepository;
+//
+//        @Autowired
+//        private TestInfoRepository testInfoRepository;
+//
+//        @GetMapping("/details")
+//        public GoalDetails getGoalDetails(@RequestParam String indexes) {
+//            GoalDetails goalDetails = new GoalDetails();
+//
+//            // indexes 값으로 TestInfo 엔터티를 찾아옴
+//            TestInfo testInfo = testInfoRepository.findByIndexes(indexes).orElse(null);
+//
+//            if (testInfo != null) {
+//                goalDetails.setGoalSubject(testInfo.getTest_subject());
+//                goalDetails.setGoalSemester(testInfo.getTest_semester());
+//            }
+//
+//            goalDetails.setTotalGoals(goalRepository.count());
+//            // goalDetails.setCheckedGoals(goalRepository.countByGoal_checkIsTrue());
+//
+//            return goalDetails;
+//        }
+//    }
 }

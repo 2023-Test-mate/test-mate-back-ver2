@@ -18,9 +18,9 @@ public class HomeService {
     public CreateHome.Response createHome(CreateHome.Request request){
         Home home = Home.builder()
                 .indexes(request.getIndexes())
-                .home_fail(request.getHome_fail())
-                .home_semester(request.getHome_semester())
-                .home_subject(request.getHome_subject())
+                .fail(request.getFail())
+                .semester(request.getSemester())
+                .subject(request.getSubject())
                 .build();
 
         homeRepository.save(home);

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "test_info")
+@Table(name = "testinfo")
 public class TestInfo {
     @Id
     @GeneratedValue
@@ -20,16 +20,16 @@ public class TestInfo {
     @Column(nullable = false)
     private String indexes;
     @Column(nullable = false)
-    private String test_subject;
+    private String subject;
     @Column(nullable = false)
-    private String test_semester;
+    private String semester;
     @Column(nullable = false)
-    private int test_score;
+    private int score;
     @Column(nullable = false)
-    private String test_date;
+    private String dates;
     @Column(nullable = false)
-    private String test_level;
+    private String levels;
     @Column(nullable = false)
-    private int test_target;
+    private int target;
 
 }

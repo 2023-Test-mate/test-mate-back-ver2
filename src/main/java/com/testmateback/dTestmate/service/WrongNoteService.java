@@ -20,13 +20,13 @@ public class WrongNoteService {
     public CreateWrongNote.Response createWrongNote(CreateWrongNote.Request request){
         WrongNote wrongNote = WrongNote.builder()
                 .indexes(request.getIndexes())
-                .note_subject(request.getNote_subject())
-                .note_semester(request.getNote_semester())
-                .note_photo(request.getNote_photo())
-                .note_solution(request.getNote_solution())
-                .note_testStyle(request.getNote_testStyle())
-                .note_reason(request.getNote_reason())
-                .note_testScope(request.getNote_testScope())
+                .subject(request.getSubject())
+                .semester(request.getSemester())
+                .photo(request.getPhoto())
+                .solution(request.getSolution())
+                .testStyle(request.getTestStyle())
+                .reason(request.getReason())
+                .testScope(request.getTestScope())
                 .build();
 
         wrongNoteRepository.save(wrongNote);

@@ -19,8 +19,8 @@ public class CalendarService {
     public CreateCalendar.Response createCalendar(CreateCalendar.Request request){
         Calendar calendar = Calendar.builder()
                 .indexes(request.getIndexes())
-                .calendar_subject(request.getCalendar_subject())
-                .calendar_date(request.getCalendar_date())
+                .subject(request.getSubject())
+                .date(request.getDate())
                 .build();
 
         calenderRepository.save(calendar);

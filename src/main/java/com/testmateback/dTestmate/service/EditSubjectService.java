@@ -19,8 +19,8 @@ public class EditSubjectService {
     public CreateEditSubject.Response createEditSubject(CreateEditSubject.Request request){
         EditSubject editSubject = EditSubject.builder()
                 .indexes(request.getIndexes())
-                .edit_subject(request.getEdit_subject())
-                .edit_photo(request.getEdit_photo())
+                .subject(request.getSubject())
+                .photo(request.getPhoto())
                 .build();
 
         editSubjectRepository.save(editSubject);

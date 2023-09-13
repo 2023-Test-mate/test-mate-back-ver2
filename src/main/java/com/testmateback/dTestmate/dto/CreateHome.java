@@ -15,11 +15,11 @@ public class CreateHome {
         @NotNull
         private String indexes;
         @NotNull
-        private String home_subject;
+        private String subject;
         @NotNull
-        private String home_semester;
+        private String semester;
         @NotNull
-        private String home_fail;
+        private String fail;
     }
 
     @Getter
@@ -30,17 +30,17 @@ public class CreateHome {
     @ToString
     public static class Response {
         @NotNull
-        private String home_subject;
+        private String subject;
         @NotNull
-        private String home_semester;
+        private String semester;
         @NotNull
-        private String home_fail;
+        private String fail;
 
         public static CreateHome.Response homeResponse(Home home) {
-            return CreateHome.Response.builder()
-                    .home_subject(home.getHome_subject())
-                    .home_semester(home.getHome_semester())
-                    .home_fail(home.getHome_fail())
+            return Response.builder()
+                    .subject(home.getSubject())
+                    .semester(home.getSemester())
+                    .fail(home.getFail())
                     .build();
         }
     }

@@ -20,8 +20,8 @@ public class Calendar {
     @Column(nullable = false)
     private String indexes;
     @Column(nullable = false)
-    private String calendar_subject;
+    private String subject;
     @Column(nullable = false)
-    private String calendar_date;
+    private String date;
 
 }

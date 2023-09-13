@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "edit_subject")
+@Table(name = "editsubject")
 public class EditSubject {
     @Id
     @GeneratedValue
@@ -20,8 +20,8 @@ public class EditSubject {
     @Column(nullable = false)
     private String indexes;
     @Column(nullable = false)
-    private String edit_subject;
+    private String subject;
     @Column(nullable = false)
-    private byte[] edit_photo;
+    private byte[] photo;
 
 }

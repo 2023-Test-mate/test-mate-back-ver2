@@ -4,10 +4,16 @@ import com.testmateback.dTestmate.dto.CreateUser;
 import com.testmateback.dTestmate.entity.Users;
 import com.testmateback.dTestmate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.ResourceAccessException;
+
+import javax.security.auth.Subject;
 import java.util.List;
 
 @Service
@@ -40,5 +46,8 @@ public class UserService {
             // 데이터베이스 예외 처리
             throw new RuntimeException("사용자 생성 중 오류가 발생했습니다.", e);
         }
+
     }
+
+
 }

@@ -20,10 +20,10 @@ public class GoalService {
     public CreateGoal.Response createGoal(CreateGoal.Request request){
         Goal goal = Goal.builder()
                 .indexes(request.getIndexes())
-                .goal_subject(request.getGoal_subject())
-                .goal_semester(request.getGoal_semester())
+                .subject(request.getSubject())
+                .semester(request.getSemester())
                 .goal(request.getGoal())
-                .goal_check(request.isGoal_check())
+                .checks(request.getCheck())
                 .build();
 
         goalRepository.save(goal);

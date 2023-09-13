@@ -20,10 +20,10 @@ public class Home {
     @Column(nullable = false)
     private String indexes;
     @Column(nullable = false)
-    private String home_subject;
+    private String subject;
     @Column(nullable = false)
-    private String home_semester;
+    private String semester;
     @Column(nullable = false)
-    private String home_fail;
+    private String fail;
 
 }

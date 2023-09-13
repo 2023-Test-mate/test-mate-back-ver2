@@ -15,19 +15,19 @@ public class CreateWrongNote {
         @NotNull
         private String indexes;
         @NotNull
-        private String note_subject;
+        private String subject;
         @NotNull
-        private String note_semester;
+        private String semester;
         @NotNull
-        private byte[] note_photo;
+        private byte[] photo;
         @NotNull
-        private String note_solution;
+        private String solution;
         @NotNull
-        private String note_testStyle;
+        private String testStyle;
         @NotNull
-        private String note_reason;
+        private String reason;
         @NotNull
-        private String note_testScope;
+        private String testScope;
     }
 
     @Getter
@@ -38,29 +38,29 @@ public class CreateWrongNote {
     @ToString
     public static class Response {
         @NotNull
-        private String note_subject;
+        private String subject;
         @NotNull
-        private String note_semester;
+        private String semester;
         @NotNull
-        private byte[] note_photo;
+        private byte[] photo;
         @NotNull
-        private String note_solution;
+        private String solution;
         @NotNull
-        private String note_testStyle;
+        private String testStyle;
         @NotNull
-        private String note_reason;
+        private String reason;
         @NotNull
-        private String note_testScope;
+        private String testScope;
 
         public static CreateWrongNote.Response WrongNoteResponse(WrongNote wrongNote) {
             return CreateWrongNote.Response.builder()
-                    .note_subject(wrongNote.getNote_subject())
-                    .note_semester(wrongNote.getNote_semester())
-                    .note_photo(wrongNote.getNote_photo())
-                    .note_solution(wrongNote.getNote_solution())
-                    .note_testStyle(wrongNote.getNote_testStyle())
-                    .note_reason(wrongNote.getNote_reason())
-                    .note_testScope(wrongNote.getNote_testScope())
+                    .subject(wrongNote.getSubject())
+                    .semester(wrongNote.getSemester())
+                    .photo(wrongNote.getPhoto())
+                    .solution(wrongNote.getSolution())
+                    .testStyle(wrongNote.getTestStyle())
+                    .reason(wrongNote.getReason())
+                    .testScope(wrongNote.getTestScope())
                     .build();
         }
     }
