@@ -13,11 +13,11 @@ public class CreateCalendar {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
-        private String calendar_subject;
+        private String subject;
         @NotNull
-        private String calendar_date;
+        private String date;
 
     }
 
@@ -29,15 +29,15 @@ public class CreateCalendar {
     @ToString
     public static class Response {
         @NotNull
-        private String calendar_subject;
+        private String subject;
         @NotNull
-        private String calendar_date;
+        private String date;
 
 
         public static CreateCalendar.Response calendarResponse(Calendar calendar) {
-            return CreateCalendar.Response.builder()
-                    .calendar_subject(calendar.getCalendar_subject())
-                    .calendar_date(calendar.getCalendar_date())
+            return Response.builder()
+                    .subject(calendar.getSubject())
+                    .date(calendar.getDate())
                     .build();
         }
     }

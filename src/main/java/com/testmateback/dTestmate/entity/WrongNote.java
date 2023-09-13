@@ -11,26 +11,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "wrongnote")
 public class WrongNote {
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
-    private String index;
+    private String indexes;
     @Column(nullable = false)
-    private String note_subject;
+    private String subject;
     @Column(nullable = false)
-    private String note_semester;
+    private String semester;
     @Column(nullable = false)
-    private byte[] note_photo;
+    private byte[] photo;
     @Column(nullable = false)
-    private String note_solution;
+    private String solution;
     @Column(nullable = false)
-    private String note_testStyle;
+    private String testStyle;
     @Column(nullable = false)
-    private String note_reason;
+    private String reason;
     @Column(nullable = false)
-    private String note_testScope;
+    private String testScope;
 
 }

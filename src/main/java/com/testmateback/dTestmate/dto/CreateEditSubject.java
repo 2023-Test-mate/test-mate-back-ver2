@@ -13,11 +13,11 @@ public class CreateEditSubject {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
-        private String edit_subject;
+        private String subject;
         @NotNull
-        private byte[] edit_photo;
+        private byte[] photo;
 
     }
 
@@ -29,14 +29,14 @@ public class CreateEditSubject {
     @ToString
     public static class Response {
         @NotNull
-        private String edit_subject;
+        private String subject;
         @NotNull
-        private byte[] edit_photo;
+        private byte[] photo;
 
         public static CreateEditSubject.Response EditSubjectResponse(EditSubject editSubject) {
             return Response.builder()
-                    .edit_subject(editSubject.getEdit_subject())
-                    .edit_photo(editSubject.getEdit_photo())
+                    .subject(editSubject.getSubject())
+                    .photo(editSubject.getPhoto())
                     .build();
         }
     }

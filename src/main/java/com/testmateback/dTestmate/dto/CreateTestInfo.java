@@ -14,19 +14,19 @@ public class CreateTestInfo {
     @ToString
     public static class Request {
         @NotNull
-        private String index;
+        private String indexes;
         @NotNull
-        private String test_subject;
+        private String subject;
         @NotNull
-        private String test_semester;
+        private String semester;
         @NotNull
-        private int test_score;
+        private int score;
         @NotNull
-        private String test_date;
+        private String dates;
         @NotNull
-        private String test_level;
+        private String levels;
         @NotNull
-        private int test_target;
+        private int target;
     }
 
     @Getter
@@ -37,26 +37,26 @@ public class CreateTestInfo {
     @ToString
     public static class Response {
         @NotNull
-        private String test_subject;
+        private String subject;
         @NotNull
-        private String test_semester;
+        private String semester;
         @NotNull
-        private int test_score;
+        private int score;
         @NotNull
-        private String test_date;
+        private String dates;
         @NotNull
-        private String test_level;
+        private String levels;
         @NotNull
-        private int test_target;
+        private int target;
 
         public static CreateTestInfo.Response TestInfoResponse(TestInfo testInfo) {
-            return CreateTestInfo.Response.builder()
-                    .test_subject(testInfo.getTest_subject())
-                    .test_semester(testInfo.getTest_semester())
-                    .test_score(testInfo.getTest_score())
-                    .test_date(testInfo.getTest_date())
-                    .test_level(testInfo.getTest_level())
-                    .test_target(testInfo.getTest_target())
+            return Response.builder()
+                    .subject(testInfo.getSubject())
+                    .semester(testInfo.getSemester())
+                    .score(testInfo.getScore())
+                    .dates(testInfo.getDates())
+                    .levels(testInfo.getLevels())
+                    .target(testInfo.getTarget())
                     .build();
         }
     }

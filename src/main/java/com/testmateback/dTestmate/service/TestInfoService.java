@@ -17,13 +17,13 @@ public class TestInfoService {
     @Transactional
     public CreateTestInfo.Response createTestInfo(CreateTestInfo.Request request){
         TestInfo testInfo = TestInfo.builder()
-                .index(request.getIndex())
-                .test_subject(request.getTest_subject())
-                .test_semester(request.getTest_semester())
-                .test_score(request.getTest_score())
-                .test_date(request.getTest_date())
-                .test_level(request.getTest_level())
-                .test_target(request.getTest_target())
+                .indexes(request.getIndexes())
+                .subject(request.getSubject())
+                .semester(request.getSemester())
+                .score(request.getScore())
+                .dates(request.getDates())
+                .levels(request.getLevels())
+                .target(request.getTarget())
                 .build();
 
         testInfoRepository.save(testInfo);

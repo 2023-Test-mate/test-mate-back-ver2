@@ -17,10 +17,10 @@ public class HomeService {
     @Transactional
     public CreateHome.Response createHome(CreateHome.Request request){
         Home home = Home.builder()
-                .index(request.getIndex())
-                .home_fail(request.getHome_fail())
-                .home_semester(request.getHome_semester())
-                .home_subject(request.getHome_subject())
+                .indexes(request.getIndexes())
+                .fail(request.getFail())
+                .semester(request.getSemester())
+                .subject(request.getSubject())
                 .build();
 
         homeRepository.save(home);

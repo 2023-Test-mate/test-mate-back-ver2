@@ -11,20 +11,24 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "goal")
 public class Goal {
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
-    private String index;
+    private String indexes;
     @Column(nullable = false)
-    private String goal_subject;
+    private String subject;
     @Column(nullable = false)
-    private String goal_semester;
+    private String semester;
     @Column(nullable = false)
     private String goal;
     @Column(nullable = false)
-    private boolean goal_check;
+    private boolean checks;
 
+    public boolean getCheck() {
+        return checks;
+    }
 }

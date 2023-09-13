@@ -18,9 +18,9 @@ public class EditSubjectService {
     @Transactional
     public CreateEditSubject.Response createEditSubject(CreateEditSubject.Request request){
         EditSubject editSubject = EditSubject.builder()
-                .index(request.getIndex())
-                .edit_subject(request.getEdit_subject())
-                .edit_photo(request.getEdit_photo())
+                .indexes(request.getIndexes())
+                .subject(request.getSubject())
+                .photo(request.getPhoto())
                 .build();
 
         editSubjectRepository.save(editSubject);
