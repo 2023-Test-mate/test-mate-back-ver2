@@ -117,32 +117,34 @@ public class DMakerController {
         return wrongNoteService.createWrongNote(request);
     }
 
-//    @RestController
-//    @RequestMapping("/goal")
-//    public class GoalController {
-//
-//        @Autowired
-//        private GoalRepository goalRepository;
-//
-//        @Autowired
-//        private TestInfoRepository testInfoRepository;
-//
-//        @GetMapping("/details")
-//        public GoalDetails getGoalDetails(@RequestParam String indexes) {
-//            GoalDetails goalDetails = new GoalDetails();
-//
-//            // indexes 값으로 TestInfo 엔터티를 찾아옴
-//            TestInfo testInfo = testInfoRepository.findByIndexes(indexes).orElse(null);
-//
-//            if (testInfo != null) {
-//                goalDetails.setGoalSubject(testInfo.getTest_subject());
-//                goalDetails.setGoalSemester(testInfo.getTest_semester());
-//            }
-//
-//            goalDetails.setTotalGoals(goalRepository.count());
-//            // goalDetails.setCheckedGoals(goalRepository.countByGoal_checkIsTrue());
-//
-//            return goalDetails;
-//        }
-//    }
+    @RestController
+    @RequestMapping("/goal")
+    public class GoalController {
+
+        @Autowired
+        private GoalRepository goalRepository;
+
+        @Autowired
+        private TestInfoRepository testInfoRepository;
+
+        @GetMapping("/details")
+        public GoalDetails getGoalDetails(@RequestParam String indexes) {
+            GoalDetails goalDetails = new GoalDetails();
+            goalDetails.setIndexes(indexes);
+
+            // testInfoRepository 인스턴스를 사용하여 findByIndexes 메서드 호출
+            TestInfo testInfo = (TestInfo) testInfoRepository.findByIndexes(indexes).orElse(null);
+
+            if (testInfo != null) {
+                goalDetails.setGoalSubject(testInfo.getSubject());
+                goalDetails.setGoalSemester(testInfo.getSemester());
+            }
+
+            goalDetails.setTotalGoals(goalRepository.count());
+            goalDetails.setCheckedGoals(goalRepository.countByChecksIsTrue());
+
+            return goalDetails;
+        }
+
+    }
 }

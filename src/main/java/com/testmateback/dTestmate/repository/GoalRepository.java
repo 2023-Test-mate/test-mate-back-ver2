@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
-    // long countByGoal_checkIsTrue();
-//    List<Goal> findByGoalCheckIsTrue();
+    long countByChecksIsTrue(); // 메서드 이름 변경
 }

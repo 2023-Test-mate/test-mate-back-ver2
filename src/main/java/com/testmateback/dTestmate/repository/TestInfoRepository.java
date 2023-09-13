@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TestInfoRepository extends JpaRepository<TestInfo, Long> {
-//    Optional<TestInfo> findByIndexes(String indexes);
-//    // test_subject 값으로 검색하는 메서드
-//    List<TestInfo> findByTestSubject(String testSubject);
+    Optional<Object> findByIndexes(String indexes);
 }
