@@ -29,7 +29,7 @@ public class CreateWrongNote {
         @NotNull
         private String scopes;
         @NotNull
-        private String stylecheck;
+        private String reasoncheck;
         @NotNull
         private String scopecheck;
     }
@@ -56,7 +56,7 @@ public class CreateWrongNote {
         @NotNull
         private String scopes;
         @NotNull
-        private String stylecheck;
+        private String reasoncheck;
         @NotNull
         private String scopecheck;
 
@@ -69,7 +69,7 @@ public class CreateWrongNote {
                     .styles(wrongNote.getStyles())
                     .reason(wrongNote.getReason())
                     .scopes(wrongNote.getScopes())
-                    .stylecheck(wrongNote.getStylecheck())
+                    .reasoncheck(wrongNote.getReasoncheck())
                     .scopecheck(wrongNote.getScopecheck())
                     .build();
         }

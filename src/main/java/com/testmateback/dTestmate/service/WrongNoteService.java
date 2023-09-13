@@ -27,7 +27,7 @@ public class WrongNoteService {
                 .styles(request.getStyles())
                 .reason(request.getReason())
                 .scopes(request.getScopes())
-                .stylecheck(request.getStylecheck())
+                .reasoncheck(request.getReasoncheck())
                 .scopecheck(request.getScopecheck())
                 .build();
 
