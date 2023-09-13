@@ -36,6 +36,6 @@ public class WrongNote {
     @Column(nullable = false)
     private String scopecheck;
     @Column(nullable = false)
-    private String stylecheck;
+    private String reasoncheck;
 
 }
