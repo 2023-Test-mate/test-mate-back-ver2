@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EditSubjectRepository extends JpaRepository<EditSubject, Long> {
-
+    List<EditSubject> findAll();
 }
