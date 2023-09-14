@@ -29,9 +29,17 @@ public class CreateWrongNote {
         @NotNull
         private String scopes;
         @NotNull
-        private String reasoncheck;
+        private boolean reasoncheck;
         @NotNull
-        private String scopecheck;
+        private boolean scopecheck;
+
+        public boolean getReasoncheck() {
+            return reasoncheck;
+        }
+
+        public boolean getScopecheck() {
+            return scopecheck;
+        }
     }
 
     @Getter
@@ -56,9 +64,9 @@ public class CreateWrongNote {
         @NotNull
         private String scopes;
         @NotNull
-        private String reasoncheck;
+        private boolean reasoncheck;
         @NotNull
-        private String scopecheck;
+        private boolean scopecheck;
 
         public static CreateWrongNote.Response WrongNoteResponse(WrongNote wrongNote) {
             return Response.builder()

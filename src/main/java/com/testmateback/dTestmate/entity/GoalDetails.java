@@ -11,9 +11,10 @@ public class GoalDetails {
     private String goalSemester;
     private long totalGoals;
     private long checkedGoals;
+    private
 
     // 추가
-    public String getIndexes() {
+    String getIndexes() {
         return indexes;
     }
 }
