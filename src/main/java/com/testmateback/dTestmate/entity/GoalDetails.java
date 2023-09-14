@@ -11,7 +11,6 @@ public class GoalDetails {
     private String goalSemester;
     private long totalGoals;
     private long checkedGoals;
-    private
 
     // 추가
     String getIndexes() {
