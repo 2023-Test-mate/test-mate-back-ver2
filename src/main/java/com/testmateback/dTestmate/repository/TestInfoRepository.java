@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface TestInfoRepository extends JpaRepository<TestInfo, Long> {
     Optional<Object> findByIndexes(String indexes);
+    List<TestInfo> findAll();
 }

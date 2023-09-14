@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     long countByChecksIsTrue(); // 메서드 이름 변경
+    List<Goal> findAll();
 }
