@@ -17,7 +17,7 @@ public class Goal {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String indexes;
     @Column(nullable = false)
     private String subject;
