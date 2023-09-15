@@ -21,7 +21,7 @@ public class GoalService {
         Goal goal = Goal.builder()
                 .indexes(request.getIndexes())
                 .subject(request.getSubject())
-                .semester(request.getSemester())
+                .grade(request.getGrade())
                 .goal(request.getGoal())
                 .checks(request.getCheck())
                 .build();

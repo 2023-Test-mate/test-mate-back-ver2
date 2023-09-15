@@ -19,7 +19,7 @@ public class HomeService {
         Home home = Home.builder()
                 .indexes(request.getIndexes())
                 .fail(request.getFail())
-                .semester(request.getSemester())
+                .grade(request.getGrade())
                 .subject(request.getSubject())
                 .build();
 

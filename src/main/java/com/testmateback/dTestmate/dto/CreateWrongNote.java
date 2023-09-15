@@ -17,7 +17,11 @@ public class CreateWrongNote {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String title;
+        @NotNull
+        private String grade;
+        @NotNull
+        private String problem;
         @NotNull
         private byte[] photo;
         @NotNull
@@ -52,7 +56,11 @@ public class CreateWrongNote {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String title;
+        @NotNull
+        private String grade;
+        @NotNull
+        private String problem;
         @NotNull
         private byte[] photo;
         @NotNull
@@ -71,7 +79,9 @@ public class CreateWrongNote {
         public static CreateWrongNote.Response WrongNoteResponse(WrongNote wrongNote) {
             return Response.builder()
                     .subject(wrongNote.getSubject())
-                    .semester(wrongNote.getSemester())
+                    .grade(wrongNote.getGrade())
+                    .solution(wrongNote.getSolution())
+                    .problem(wrongNote.getProblem())
                     .photo(wrongNote.getPhoto())
                     .solution(wrongNote.getSolution())
                     .styles(wrongNote.getStyles())

@@ -17,6 +17,8 @@ public class CreateEditSubject {
         @NotNull
         private String subject;
         @NotNull
+        private String grade;
+        @NotNull
         private byte[] photo;
 
     }
@@ -31,11 +33,14 @@ public class CreateEditSubject {
         @NotNull
         private String subject;
         @NotNull
+        private String grade;
+        @NotNull
         private byte[] photo;
 
         public static CreateEditSubject.Response EditSubjectResponse(EditSubject editSubject) {
             return Response.builder()
                     .subject(editSubject.getSubject())
+                    .grade(editSubject.getGrade())
                     .photo(editSubject.getPhoto())
                     .build();
         }

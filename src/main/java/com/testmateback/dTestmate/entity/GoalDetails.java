@@ -8,9 +8,10 @@ import lombok.Setter;
 public class GoalDetails {
     private String indexes; // 추가
     private String goalSubject;
-    private String goalSemester;
+    private String goalGrade;
     private long totalGoals;
     private long checkedGoals;
+    private byte[] subjectImg;
 
     // 추가
     String getIndexes() {

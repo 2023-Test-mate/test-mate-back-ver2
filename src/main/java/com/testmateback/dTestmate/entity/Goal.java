@@ -21,8 +21,8 @@ public class Goal {
     private String indexes;
     @Column(nullable = false)
     private String subject;
-    @Column(nullable = false)
-    private String semester;
+    @Column(nullable = false, unique = true)
+    private String grade;
     @Column(nullable = false)
     private String goal;
     @Column(nullable = false)

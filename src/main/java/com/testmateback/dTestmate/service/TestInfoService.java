@@ -19,7 +19,7 @@ public class TestInfoService {
         TestInfo testInfo = TestInfo.builder()
                 .indexes(request.getIndexes())
                 .subject(request.getSubject())
-                .semester(request.getSemester())
+                .grade(request.getGrade())
                 .score(request.getScore())
                 .dates(request.getDates())
                 .levels(request.getLevels())
