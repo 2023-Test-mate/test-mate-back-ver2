@@ -17,12 +17,12 @@ public class TestInfo {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String indexes;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
-    private String semester;
+    private String grade;
     @Column(nullable = false)
     private int score;
     @Column(nullable = false)

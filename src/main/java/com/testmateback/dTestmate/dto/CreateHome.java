@@ -17,7 +17,7 @@ public class CreateHome {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private String fail;
     }
@@ -32,14 +32,14 @@ public class CreateHome {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private String fail;
 
         public static CreateHome.Response homeResponse(Home home) {
             return Response.builder()
                     .subject(home.getSubject())
-                    .semester(home.getSemester())
+                    .grade(home.getGrade())
                     .fail(home.getFail())
                     .build();
         }

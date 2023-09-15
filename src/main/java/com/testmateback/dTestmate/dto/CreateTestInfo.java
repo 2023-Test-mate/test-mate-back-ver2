@@ -1,7 +1,6 @@
 package com.testmateback.dTestmate.dto;
 
 import com.testmateback.dTestmate.entity.TestInfo;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -18,7 +17,7 @@ public class CreateTestInfo {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private int score;
         @NotNull
@@ -39,7 +38,7 @@ public class CreateTestInfo {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private int score;
         @NotNull
@@ -52,7 +51,7 @@ public class CreateTestInfo {
         public static CreateTestInfo.Response TestInfoResponse(TestInfo testInfo) {
             return Response.builder()
                     .subject(testInfo.getSubject())
-                    .semester(testInfo.getSemester())
+                    .grade(testInfo.getGrade())
                     .score(testInfo.getScore())
                     .dates(testInfo.getDates())
                     .levels(testInfo.getLevels())

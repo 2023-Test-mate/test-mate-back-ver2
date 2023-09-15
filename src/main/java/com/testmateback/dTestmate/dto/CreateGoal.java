@@ -1,10 +1,8 @@
 package com.testmateback.dTestmate.dto;
 
-        import com.testmateback.dTestmate.entity.Goal;
-        import com.testmateback.dTestmate.entity.Home;
-        import jakarta.persistence.Column;
-        import jakarta.validation.constraints.NotNull;
-        import lombok.*;
+import com.testmateback.dTestmate.entity.Goal;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 public class CreateGoal {
     @Getter
@@ -19,7 +17,7 @@ public class CreateGoal {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private String goal;
         @NotNull
@@ -41,7 +39,7 @@ public class CreateGoal {
         @NotNull
         private String subject;
         @NotNull
-        private String semester;
+        private String grade;
         @NotNull
         private String goal;
         @NotNull
@@ -50,7 +48,7 @@ public class CreateGoal {
         public static CreateGoal.Response GoalResponse(Goal goal) {
             return Response.builder()
                     .subject(goal.getGoal())
-                    .semester(goal.getSemester())
+                    .grade(goal.getGrade())
                     .goal(goal.getGoal())
                     .checks(goal.getCheck())
                     .build();

@@ -17,12 +17,16 @@ public class WrongNote {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String indexes;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
-    private String semester;
+    private String grade;
+    @Column(nullable = false)
+    private String title;
+    @Column(nullable = false)
+    private String problem;
     @Column(nullable = false)
     private byte[] photo;
     @Column(nullable = false)
@@ -45,4 +49,5 @@ public class WrongNote {
     public boolean getScopecheck() {
         return scopecheck;
     }
+
 }
