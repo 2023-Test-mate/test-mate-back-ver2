@@ -14,16 +14,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "home")
 public class Home {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성 및 증가
+    @Column(nullable = false, unique = false) // 중복 허용
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false) // 중복 허용
     private String indexes;
-    @Column(nullable = false)
-    private String subject;
-    @Column(nullable = false)
-    private String grade;
-    @Column(nullable = false)
-    private String fail;
 
+    @Column(nullable = false, unique = false) // 중복 허용
+    private String subject;
+
+    @Column(nullable = false, unique = false) // 중복 허용
+    private String grade;
+
+    @Column(nullable = false, unique = false) // 중복 허용
+    private String fail;
 }

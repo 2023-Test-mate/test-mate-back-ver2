@@ -15,17 +15,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Goal {
     @Id
     @GeneratedValue
+    @Column(nullable = false, unique = false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String indexes;
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private String subject;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String grade;
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private String goal;
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private boolean checks;
 
     public boolean getCheck() {
