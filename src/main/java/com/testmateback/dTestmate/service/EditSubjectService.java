@@ -21,6 +21,7 @@ public class EditSubjectService {
                 .indexes(request.getIndexes())
                 .subject(request.getSubject())
                 .photo(request.getPhoto())
+                .grade(request.getGrade())
                 .build();
 
         editSubjectRepository.save(editSubject);
