@@ -22,15 +22,15 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id; // 고유한 식별자로 사용될 필드 (자동 생성 및 증가)
 
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private String grade; // 등급 정보를 저장하는 필드, null 값 허용하지 않음
 
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private String name; // 이름 정보를 저장하는 필드, null 값 허용하지 않음
 
-    @Column(nullable = false)
+        @Column(nullable = false)
     private String email; // 이메일 정보를 저장하는 필드, null 값 허용하지 않음
 
-    @Column(nullable = false)
+        @Column(nullable = false, unique = false)
     private String password; // 비밀번호 정보를 저장하는 필드, null 값 허용하지 않음
 }
