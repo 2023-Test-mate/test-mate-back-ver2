@@ -3,15 +3,40 @@ package com.testmateback.dTestmate.dao;
 import java.util.List;
 
 public class HomeInfoResponse {
-    public void setEditSubjectList(List<EditSubjectData> editSubjectDataList) {
+    private List<EditSubjectData> editSubjectList;
+    private List<TestInfoData> testInfoList;
+    private List<WrongNoteData> wrongNoteList;
+    private List<HomeData> homeList;
+
+    public List<EditSubjectData> getEditSubjectList() {
+        return editSubjectList;
     }
 
-    public void setTestInfoList(List<TestInfoData> testInfoDataList) {
+    public void setEditSubjectList(List<EditSubjectData> editSubjectList) {
+        this.editSubjectList = editSubjectList;
     }
 
-    public void setWrongNoteList(List<WrongNoteData> wrongNoteDataList) {
+    public List<TestInfoData> getTestInfoList() {
+        return testInfoList;
     }
 
-    public void setHomeList(List<HomeData> homeDataList) {
+    public void setTestInfoList(List<TestInfoData> testInfoList) {
+        this.testInfoList = testInfoList;
+    }
+
+    public List<WrongNoteData> getWrongNoteList() {
+        return wrongNoteList;
+    }
+
+    public void setWrongNoteList(List<WrongNoteData> wrongNoteList) {
+        this.wrongNoteList = wrongNoteList;
+    }
+
+    public List<HomeData> getHomeList() {
+        return homeList;
+    }
+
+    public void setHomeList(List<HomeData> homeList) {
+        this.homeList = homeList;
     }
 }

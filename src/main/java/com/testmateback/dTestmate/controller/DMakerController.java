@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -141,17 +142,18 @@ public class DMakerController {
             for (TestInfo testInfo : testInfoList) {
                 GoalDetails goalDetails = new GoalDetails();
                 goalDetails.setIndexes(indexes);
-                goalDetails.setGoalSubject(editSubject.getSubject());
-                goalDetails.setGoalGrade(testInfo.getGrade());
 
-                // EditSubject 테이블에서 subject에 해당하는 photo를 가져옵니다.
+                // EditSubject가 null이 아닌 경우에만 값을 설정합니다.
                 if (editSubject != null) {
+                    goalDetails.setGoalSubject(editSubject.getSubject());
                     goalDetails.setSubjectImg(editSubject.getPhoto());
                 }
 
+                goalDetails.setGoalGrade(testInfo.getGrade());
+
                 // goalRepository를 사용하여 해당 subject의 goal 개수를 구합니다.
-                List<Goal> goalsBySubject = goalRepository.findBySubject(editSubject.getSubject());
-                List<Goal> checkedGoalsBySubject = goalRepository.findBySubjectAndChecksTrue(editSubject.getSubject());
+                List<Goal> goalsBySubject = goalRepository.findBySubject(goalDetails.getGoalSubject());
+                List<Goal> checkedGoalsBySubject = goalRepository.findBySubjectAndChecksTrue(goalDetails.getGoalSubject());
 
                 goalDetails.setTotalGoals(goalsBySubject.size());
                 goalDetails.setCheckedGoals(checkedGoalsBySubject.size());
@@ -162,32 +164,29 @@ public class DMakerController {
         }
 
 
+
         @GetMapping("/check-lists")
         public GoalCheckResponse getGoalCheck(
                 @RequestParam String indexes,
                 @RequestParam String subject,
                 @RequestParam String grade
         ) {
-            GoalCheckResponse response = new GoalCheckResponse();
+            try {
+                List<Goal> checkedGoals = goalRepository.findByIndexesAndSubjectAndGradeAndChecks(indexes, subject, grade, true);
+                List<Goal> noGoals = goalRepository.findByIndexesAndSubjectAndGradeAndChecks(indexes, subject, grade, false);
 
-            // Checked Goals 조회 (checks가 1인 것)
-            List<Goal> checkedGoals = goalRepository.findByIndexesAndSubjectAndGradeAndChecks(indexes, subject, grade, true);
-            List<String> checkedGoalStrings = new ArrayList<>();
-            for (Goal goal : checkedGoals) {
-                checkedGoalStrings.add(goal.getGoal());
+                GoalCheckResponse response = new GoalCheckResponse();
+                response.setCheckedGoals(checkedGoals.stream().map(Goal::getGoal).collect(Collectors.toList()));
+                response.setNoGoals(noGoals.stream().map(Goal::getGoal).collect(Collectors.toList()));
+
+                return response;
+            } catch (Exception e) {
+                // 예외 처리: 예외가 발생할 경우 에러 응답을 반환하거나 로깅 등을 수행할 수 있습니다.
+                e.printStackTrace();
+                throw new RuntimeException("Failed to fetch goals");
             }
-            response.setCheckedGoals(checkedGoalStrings);
-
-            // No Goals 조회 (checks가 0인 것)
-            List<Goal> noGoals = goalRepository.findByIndexesAndSubjectAndGradeAndChecks(indexes, subject, grade, false);
-            List<String> noGoalStrings = new ArrayList<>();
-            for (Goal goal : noGoals) {
-                noGoalStrings.add(goal.getGoal());
-            }
-            response.setNoGoals(noGoalStrings);
-
-            return response;
         }
+
     }
 
     @RestController
