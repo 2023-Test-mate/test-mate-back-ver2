@@ -18,4 +18,8 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findBySubjectAndChecksTrue(String subject);
 
     List<Goal> findByIndexesAndSubjectAndGradeAndChecks(String indexes, String subject, String grade, boolean b);
+
+    void deleteByIndexesAndSubjectAndGrade(String indexes, String subject, String grade);
+
+    void deleteByIndexesAndSubjectAndGradeAndGoal(String indexes, String subject, String grade, String goal);
 }

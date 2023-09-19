@@ -187,6 +187,29 @@ public class DMakerController {
             }
         }
 
+        private final GoalRepository repository;
+
+        @Autowired
+        public GoalController(GoalRepository repository) {
+            this.repository = repository;
+        }
+
+        @DeleteMapping("/{id}")
+        public void deleteGoalById(@PathVariable Long id) {
+            repository.deleteById(id);
+        }
+
+        @DeleteMapping("/delete-by-conditions")
+        public void deleteGoalByConditions(
+                @RequestParam String indexes,
+                @RequestParam String subject,
+                @RequestParam String grade,
+                @RequestParam String goal) {
+
+            repository.deleteByIndexesAndSubjectAndGradeAndGoal(indexes, subject, grade, goal);
+        }
+
+
     }
 
     @RestController
@@ -272,5 +295,49 @@ public class DMakerController {
             return response;
         }
     }
+    @RestController
+    @RequestMapping("/wrong-note")
+    public class wrongController {
+        @Autowired
+        private WrongNoteRepository wrongNoteRepository;
+        @GetMapping("/details")
+        public WrongNoteDetails getWrongNoteDetails(@RequestParam String indexes,@RequestParam String subject, @RequestParam String grade){
+            WrongNoteDetails wrongNoteDetails = new WrongNoteDetails();
+            wrongNoteDetails.setIndexes(indexes);
 
+            WrongNote wrongNote = (WrongNote) wrongNoteRepository.findBySubjectAndGradeAndIndexes(indexes, grade, grade).orElse(null);
+
+            if (wrongNote != null) {
+                wrongNoteDetails.setWtitle(wrongNote.getTitle());
+                wrongNoteDetails.setWreason(wrongNote.getReason());
+                wrongNoteDetails.setWphoto(wrongNote.getPhoto());
+                wrongNoteDetails.setWproblem(wrongNote.getProblem());
+            }
+            return wrongNoteDetails;
+        }
+    }
+
+    @RestController
+    @RequestMapping("/calendar")
+    public class calendarController {
+        @Autowired
+        private CalenderRepository calenderRepository;
+        @GetMapping("/details")
+        public List<CalendarDetails> getCalendarDetails(@RequestParam String indexes) {
+            // indexes에 해당하는 모든 결과를 가져옵니다.
+            List<Calendar> calendars = calenderRepository.findByIndexes(indexes);
+
+            List<CalendarDetails> calendarDetailsList = new ArrayList<>();
+
+            for (Calendar calendar : calendars) {
+                CalendarDetails calendarDetails = new CalendarDetails();
+                calendarDetails.setSubjectdate(calendar.getDate());
+                calendarDetails.setCsubject(calendar.getSubject());
+                calendarDetailsList.add(calendarDetails);
+            }
+
+            return calendarDetailsList;
+        }
+
+    }
 }
