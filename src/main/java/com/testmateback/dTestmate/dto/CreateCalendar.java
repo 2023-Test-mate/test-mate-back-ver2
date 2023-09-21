@@ -33,7 +33,6 @@ public class CreateCalendar {
         @NotNull
         private String date;
 
-
         public static CreateCalendar.Response calendarResponse(Calendar calendar) {
             return Response.builder()
                     .subject(calendar.getSubject())

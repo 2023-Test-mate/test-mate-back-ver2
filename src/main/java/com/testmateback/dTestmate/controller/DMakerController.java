@@ -2,9 +2,11 @@ package com.testmateback.dTestmate.controller;
 
 import com.testmateback.dTestmate.dao.*;
 import com.testmateback.dTestmate.dto.*;
+import com.testmateback.dTestmate.entity.Calendar;
 import com.testmateback.dTestmate.entity.*;
 import com.testmateback.dTestmate.repository.*;
 import com.testmateback.dTestmate.service.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,16 +15,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DMakerController {
+
+    // 주요 서비스 및 의존성 주입
     private final UserService userService;
     private final HomeService homeService;
     private final CalendarService calendarService;
@@ -32,6 +33,7 @@ public class DMakerController {
     private final WrongNoteService wrongNoteService;
 
 
+    // 사용자 등록 요청 처리
     @PostMapping("/sign-up")
     public CreateUser.Response createUser(
             @Valid @RequestBody CreateUser.Request request
@@ -40,6 +42,7 @@ public class DMakerController {
         return userService.createUser(request);
     }
 
+    // 로그인 처리를 위한 컨트롤러 클래스
     @RestController
     @RequestMapping("/api")
     public class AuthController {
@@ -47,6 +50,7 @@ public class DMakerController {
         @Autowired
         private UserRepository userRepository;
 
+        // 로그인 요청 처리
         @PostMapping("/login")
         public ResponseEntity<Map<String, String>> login(@RequestBody CreateUser.Request credentials) {
             String email = credentials.getEmail();
@@ -76,6 +80,7 @@ public class DMakerController {
 
     }
 
+    // 캘린더 정보 생성 요청 처리
     @PostMapping("/calendar")
     public CreateCalendar.Response createCalendar(
             @Valid @RequestBody CreateCalendar.Request request
@@ -85,6 +90,7 @@ public class DMakerController {
 
     }
 
+    // 과목 정보 생성 요청 처리
     @PostMapping("/edit-subject")
     public CreateEditSubject.Response createEditSubject(
             @Valid @RequestBody CreateEditSubject.Request request
@@ -93,6 +99,7 @@ public class DMakerController {
         return editSubjectService.createEditSubject(request);
     }
 
+    // 목표 정보 생성 요청 처리
     @PostMapping("/goal")
     public CreateGoal.Response createGoal(
             @Valid @RequestBody CreateGoal.Request request
@@ -101,6 +108,7 @@ public class DMakerController {
         return goalService.createGoal(request);
     }
 
+    // 테스트 정보 생성 요청 처리
     @PostMapping("/test-info")
     public CreateTestInfo.Response createTestInfo(
             @Valid @RequestBody CreateTestInfo.Request request
@@ -109,6 +117,7 @@ public class DMakerController {
         return testInfoService.createTestInfo(request);
     }
 
+    // 오답 노트 정보 생성 요청 처리
     @PostMapping("/wrong-note")
     public CreateWrongNote.Response createWrongNote(
             @Valid @RequestBody CreateWrongNote.Request request
@@ -117,8 +126,10 @@ public class DMakerController {
         return wrongNoteService.createWrongNote(request);
     }
 
+    // 목표 관련 기능을 처리하는 컨트롤러 클래스
     @RestController
     @RequestMapping("/goal")
+    @RequiredArgsConstructor
     public class GoalController {
 
         @Autowired
@@ -129,7 +140,7 @@ public class DMakerController {
         @Autowired
         private EditSubjectRepository editSubjectRepository; // EditSubject 테이블에 접근하기 위한 리포지토리 추가
 
-
+        // 목표 관련 기능에 대한 컨트롤러 코드
         @GetMapping("/details")
         public List<GoalDetails> getGoalDetails(@RequestParam String indexes) {
             List<GoalDetails> goalDetailsList = new ArrayList<>();
@@ -164,7 +175,6 @@ public class DMakerController {
         }
 
 
-
         @GetMapping("/check-lists")
         public GoalCheckResponse getGoalCheck(
                 @RequestParam String indexes,
@@ -189,11 +199,6 @@ public class DMakerController {
 
         private final GoalRepository repository;
 
-        @Autowired
-        public GoalController(GoalRepository repository) {
-            this.repository = repository;
-        }
-
         @DeleteMapping("/{id}")
         public void deleteGoalById(@PathVariable Long id) {
             repository.deleteById(id);
@@ -210,10 +215,38 @@ public class DMakerController {
         }
 
 
+        @PutMapping("/{id}")
+        public ResponseEntity<String> updateGoal(
+                @PathVariable Long id,
+                @RequestBody Goal updatedGoal) {
+
+            Optional<Goal> goalOptional = goalRepository.findById(id);
+
+            if (goalOptional.isPresent()) {
+                Goal existingGoal = goalOptional.get();
+
+                // 업데이트할 필드 설정
+                existingGoal.setIndexes(updatedGoal.getIndexes());
+                existingGoal.setSubject(updatedGoal.getSubject());
+                existingGoal.setGrade(updatedGoal.getGrade());
+                existingGoal.setGoal(updatedGoal.getGoal());
+                existingGoal.setChecks(updatedGoal.isChecks());
+
+                // 엔터티를 저장하여 업데이트 적용
+                goalRepository.save(existingGoal);
+
+                return ResponseEntity.ok("Goal 엔터티가 업데이트되었습니다.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
     }
 
+    // 홈 정보 관련 기능을 처리하는 컨트롤러 클래스
     @RestController
     @RequestMapping("/home")
+    @RequiredArgsConstructor
     public class HomeController {
 
         @Autowired
@@ -295,13 +328,17 @@ public class DMakerController {
             return response;
         }
     }
+
+    // 오답 노트 관련 기능을 처리하는 컨트롤러 클래스
     @RestController
     @RequestMapping("/wrong-note")
+    @RequiredArgsConstructor
     public class wrongController {
         @Autowired
         private WrongNoteRepository wrongNoteRepository;
+
         @GetMapping("/details")
-        public WrongNoteDetails getWrongNoteDetails(@RequestParam String indexes,@RequestParam String subject, @RequestParam String grade){
+        public WrongNoteDetails getWrongNoteDetails(@RequestParam String indexes, @RequestParam String subject, @RequestParam String grade) {
             WrongNoteDetails wrongNoteDetails = new WrongNoteDetails();
             wrongNoteDetails.setIndexes(indexes);
 
@@ -317,11 +354,14 @@ public class DMakerController {
         }
     }
 
+    // 캘린더 관련 기능을 처리하는 컨트롤러 클래스
     @RestController
     @RequestMapping("/calendar")
+    @RequiredArgsConstructor
     public class calendarController {
         @Autowired
         private CalenderRepository calenderRepository;
+
         @GetMapping("/details")
         public List<CalendarDetails> getCalendarDetails(@RequestParam String indexes) {
             // indexes에 해당하는 모든 결과를 가져옵니다.
@@ -339,5 +379,22 @@ public class DMakerController {
             return calendarDetailsList;
         }
 
+        @Transactional
+        @DeleteMapping("/delete")
+        public String deleteCalendar(@RequestParam String indexes, @RequestParam String subject, @RequestParam String date) {
+            Calendar calendar = calenderRepository.deleteByIndexesAndSubjectAndDate(indexes, subject, date);
+
+            try {
+                if (calendar != null) {
+                    calenderRepository.delete(calendar);
+                    return "Deleted successfully";
+                } else {
+                    return "WrongNote not found";
+                }
+            } catch (Exception e) {
+                return "Failed to delete";
+            }
+        }
     }
+
 }

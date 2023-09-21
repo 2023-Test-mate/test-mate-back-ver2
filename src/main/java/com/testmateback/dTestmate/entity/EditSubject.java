@@ -20,11 +20,11 @@ public class EditSubject {
 
     @Column(nullable = false, unique = false)
     private String indexes;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String grade;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String subject;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private byte[] photo;
 
 }

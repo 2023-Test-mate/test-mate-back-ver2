@@ -10,4 +10,6 @@ import java.util.List;
 public interface CalenderRepository extends JpaRepository<Calendar, Long> {
 
     List<Calendar> findByIndexes(String indexes);
+
+    Calendar deleteByIndexesAndSubjectAndDate(String indexes, String subject, String date);
 }
