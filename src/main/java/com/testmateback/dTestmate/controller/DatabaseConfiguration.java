@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:/application.properties") // 애플리케이션 설정 파일을 로드합니다.
+@PropertySource("classpath:/application.properties") // 애플리케이션 설정 파일을 로드
 public class DatabaseConfiguration {
 
     // HikariCP (Connection Pool) 설정을 위한 빈을 생성하는 메서드

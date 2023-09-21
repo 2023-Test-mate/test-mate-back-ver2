@@ -288,7 +288,7 @@ public class DMakerController {
             for (TestInfo testInfo : testInfos) {
                 TestInfoData data = new TestInfoData();
                 data.setSubject(testInfo.getSubject());
-                data.setgrade(testInfo.getGrade());
+                data.setGrade(testInfo.getGrade());
                 data.setScore(testInfo.getScore());
                 data.setDates(testInfo.getDates());
                 data.setLevels(testInfo.getLevels());
@@ -303,24 +303,19 @@ public class DMakerController {
             List<WrongNoteData> wrongNoteDataList = new ArrayList<>();
             for (WrongNote wrongNote : wrongNotes) {
                 WrongNoteData data = new WrongNoteData();
-                // WrongNote 엔터티에 있는 필드들을 가져와서 data 객체에 설정해주세요.
                 data.setReasoncheck(wrongNote.getReasoncheck());
-
                 data.setReason(wrongNote.getReason());
-
                 wrongNoteDataList.add(data);
             }
             response.setWrongNoteList(wrongNoteDataList);
 
-            // Home에서 indexes, grade, subject가 fail인 데이터를 가져와서 처리합니다.
+            // Home에서 indexes, grade, subject가 fail인 데이터를 가져와서 처리
             List<Home> homeData = homeRepository.findByIndexesAndGradeAndSubject(indexes, grade, subject);
 
             List<HomeData> homeDataList = new ArrayList<>();
             for (Home home : homeData) {
                 HomeData data = new HomeData();
-                // Home 엔터티에 있는 필드들을 가져와서 data 객체에 설정해주세요.
                 data.setFail(home.getFail());
-
                 homeDataList.add(data);
             }
             response.setHomeList(homeDataList);
