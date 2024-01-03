@@ -20,23 +20,23 @@ public class WrongNote {
 
     @Column(nullable = false, unique = false)
     private String indexes;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String subject;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String grade;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String title;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String problem;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private byte[] photo;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String solution;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String styles;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String reason;
-        @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false)
     private String scopes;
     @Column(nullable = false, unique = false)
     private boolean scopecheck;

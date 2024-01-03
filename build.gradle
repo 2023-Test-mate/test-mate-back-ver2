@@ -33,21 +33,14 @@ jar {
 
 // 프로젝트 종속성 설정
 dependencies {
-	// Spring Boot 개발 도구
-	implementation 'org.springframework.boot:spring-boot-devtools' // Apache License 2.0
-	// Spring Boot JPA 데이터 스타터
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Apache License 2.0
-	// Spring Boot 검증 스타터
-	implementation 'org.springframework.boot:spring-boot-starter-validation' // Apache License 2.0
-	// Spring Boot 웹 스타터
-	implementation 'org.springframework.boot:spring-boot-starter-web' // Apache License 2.0
-	// 컴파일 시에만 사용되는 Lombok 종속성
-	compileOnly 'org.projectlombok:lombok' // MIT License
-	// Lombok 어노테이션 프로세서 종속성
-	annotationProcessor 'org.projectlombok:lombok' // MIT License
-	// MariaDB JDBC 드라이버
-	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1' // LGPL 2.1
-	// 테스트용 Spring Boot 스타터
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Apache License 2.0
 }
 
