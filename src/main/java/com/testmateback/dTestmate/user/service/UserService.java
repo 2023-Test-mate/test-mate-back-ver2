@@ -1,0 +1,59 @@
+package com.testmateback.dTestmate.user.service;
+
+import com.testmateback.dTestmate.user.dto.SignUpReq;
+import com.testmateback.dTestmate.user.entity.User;
+import com.testmateback.dTestmate.user.repository.UserRepository;
+import com.testmateback.dTestmate.util.Encryptor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+@Slf4j
+public class UserService {
+
+    private final Encryptor encryptor;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(Encryptor encryptor, UserRepository userRepository) {
+        this.encryptor = encryptor;
+        this.userRepository = userRepository;
+    }
+
+    @Transactional
+    public User createUser(User user) {
+
+        // 이메일 중복 확인
+//        userRepository.findByEmail(user.getEmail())
+//                .ifPresent(u -> {
+//                    throw new RuntimeException("User with the same email already exists");
+//                });
+
+        // 유저 아이디 중복 확인
+//        userRepository.findByUserId(user.getUserId())
+//                .ifPresent(u -> {
+//                    throw new DuplicateKeyException("User with the same user ID already exists");
+//                });
+
+
+        user.setPassword(encryptor.encrypt(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public Optional<User> findUserByUserIdAndPassword(String userId, String password) {
+        return userRepository.findByUserId(userId)
+                .filter(user -> user.isMatch(encryptor, password));
+    }
+
+    public boolean isUserIdDuplicate(String userId) {
+        return userRepository.findByUserId(userId).isPresent();
+    }
+
+}

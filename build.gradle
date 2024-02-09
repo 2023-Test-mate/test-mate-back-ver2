@@ -41,7 +41,8 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Apache License 2.0
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Apache License 2.04
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 }
 
 // 테스트 태스크 설정
