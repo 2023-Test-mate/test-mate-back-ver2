@@ -1,5 +1,7 @@
 package com.testmateback.dTestmate.subject.service;
 
+import com.testmateback.dTestmate.calendar.entity.Calendar;
+import com.testmateback.dTestmate.calendar.repository.CalendarRepository;
 import com.testmateback.dTestmate.subject.dto.*;
 import com.testmateback.dTestmate.subject.entity.Exam;
 import com.testmateback.dTestmate.subject.entity.Subject;
@@ -15,24 +17,27 @@ import java.util.List;
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final CalendarRepository calendarRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
     private final static String LOGIN_SESSION_KEY = "USER_ID";
 
-    public SubjectService(SubjectRepository subjectRepository, UserRepository userRepository,  HttpSession session) {
+    public SubjectService(SubjectRepository subjectRepository, CalendarRepository calendarRepository, UserRepository userRepository, HttpSession session) {
         this.subjectRepository = subjectRepository;
+        this.calendarRepository = calendarRepository;
         this.userRepository = userRepository;
         this.session = session;
     }
 
     // 홈 - 과목 생성
     public Subject createSubject(CreateSubject createSubject) {
-        Subject subject = new Subject();
         Long currentUserId = getCurrentUserIdFromSession();
+        Subject subject = new Subject();
         subject.setUserId(currentUserId);
         subject.setSubjectName(createSubject.getSubjectName());
         subject.setGrade(createSubject.getGrade());
         subject.setImg(createSubject.getImg());
+
         return subjectRepository.save(subject);
     }
 
@@ -75,6 +80,14 @@ public class SubjectService {
             pastExams.add(exam);
         }
         subject.setPastExams(pastExams);
+
+        // 캘린더에 시험 정보 추가
+        Long currentUserId = getCurrentUserIdFromSession();
+        Calendar calendar = new Calendar();
+        calendar.setUserId(currentUserId);
+        calendar.setSubject(subject.getSubjectName());
+        calendar.setDate(createTestRecordReq.getDate());
+        calendarRepository.save(calendar);
 
         return subjectRepository.save(subject);
     }
