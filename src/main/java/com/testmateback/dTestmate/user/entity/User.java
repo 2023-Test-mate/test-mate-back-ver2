@@ -41,6 +41,10 @@ public class User {
         this.password = password;
     }
 
+    public User(Long userId) {
+
+    }
+
 
     public boolean isMatch(Encryptor encryptor, String password) {
         return encryptor.isMatch(password, this.password);
