@@ -1,5 +1,6 @@
 package com.testmateback.dTestmate.wrongnote.repository;
 
+import com.testmateback.dTestmate.wrongnote.dao.WrongNoteFilter;
 import com.testmateback.dTestmate.wrongnote.entity.WrongNote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface WrongNoteRepository extends JpaRepository<WrongNote, Long> {
 
-
+    List<WrongNote> findBySubjectIdAndGrade(int subjectId, int grade);
 }
