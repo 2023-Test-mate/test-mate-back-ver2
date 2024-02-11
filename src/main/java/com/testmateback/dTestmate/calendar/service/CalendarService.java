@@ -6,6 +6,9 @@ import com.testmateback.dTestmate.calendar.repository.CalendarRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 public class CalendarService {
 
@@ -28,6 +31,10 @@ public class CalendarService {
         return calenderRepository.save(calendar);
     }
 
+    // 캘린더 삭제
+    public void deleteCalendar(Long calendarId) {
+        calenderRepository.deleteById(calendarId);
+    }
 
     private Long getCurrentUserIdFromSession() {
         // 세션에서 사용자 ID를 가져오는 로직
@@ -38,5 +45,13 @@ public class CalendarService {
         } else {
             throw new RuntimeException("User not logged in");
         }
+    }
+
+    public List<Calendar> getAllCalendarsByUserId(Long userId) {
+        return calenderRepository.findByUserId(userId);
+    }
+
+    public List<Calendar> getCalendarByUserIdAndDate(Long userId, LocalDate date) {
+        return calenderRepository.findByUserIdAndDate(userId, date);
     }
 }
