@@ -22,6 +22,7 @@ public class CalendarService {
         this.session = session;
     }
 
+    // 캘린더 생성
     public Calendar addTestInfo(CreateTestInfoReq createTestInfoReq){
         Long currentUserId = getCurrentUserIdFromSession();
         Calendar calendar = new Calendar();
@@ -36,6 +37,16 @@ public class CalendarService {
         calenderRepository.deleteById(calendarId);
     }
 
+    // 로그인한 유저의 일정 목록 불러오기
+    public List<Calendar> getAllCalendarsByUserId(Long userId) {
+        return calenderRepository.findByUserId(userId);
+    }
+
+    // 로그인한 유저의 날짜별 일정 목록 불러오기
+    public List<Calendar> getCalendarByUserIdAndDate(Long userId, LocalDate date) {
+        return calenderRepository.findByUserIdAndDate(userId, date);
+    }
+
     private Long getCurrentUserIdFromSession() {
         // 세션에서 사용자 ID를 가져오는 로직
         Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
@@ -47,11 +58,5 @@ public class CalendarService {
         }
     }
 
-    public List<Calendar> getAllCalendarsByUserId(Long userId) {
-        return calenderRepository.findByUserId(userId);
-    }
 
-    public List<Calendar> getCalendarByUserIdAndDate(Long userId, LocalDate date) {
-        return calenderRepository.findByUserIdAndDate(userId, date);
-    }
 }
