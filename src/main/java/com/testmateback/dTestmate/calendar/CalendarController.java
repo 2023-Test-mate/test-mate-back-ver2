@@ -1,72 +1,86 @@
 package com.testmateback.dTestmate.calendar;
 
-import com.testmateback.dTestmate.calendar.repository.CalenderRepository;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import com.testmateback.dTestmate.calendar.dto.CreateTestInfoReq;
+import com.testmateback.dTestmate.calendar.entity.Calendar;
+import com.testmateback.dTestmate.calendar.service.CalendarService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/calendar")
+@RequestMapping("api/calendar")
 public class CalendarController {
 
-    @Autowired
-    private CalenderRepository calenderRepository;
     private final CalendarService calendarService;
+    private final HttpSession session;
 
-    public CalendarController(CalendarService calendarService) {
+
+    public CalendarController(CalendarService calendarService, HttpSession session) {
         this.calendarService = calendarService;
+        this.session = session;
     }
 
+    private final static String LOGIN_SESSION_KEY = "USER_ID";
 
+    private Long getCurrentUserIdFromSession() {
+        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
 
-    // 캘린더 정보 생성 요청 처리
+        if (userIdAttribute != null) {
+            return (Long) userIdAttribute;
+        } else {
+            throw new RuntimeException("User not logged in");
+        }
+    }
+
+    /*
+        @ 달력에서 시험 일정 추가
+        post api/calendar
+     */
     @PostMapping
-    public CreateCalendar.Response createCalendar(
-            @Valid @RequestBody CreateCalendar.Request request
+    public ResponseEntity<Calendar> createTestInfo(@RequestBody CreateTestInfoReq createTestInfoReq) {
+        Calendar newInfo = calendarService.addTestInfo(createTestInfoReq);
+        return ResponseEntity.ok(newInfo);
+    }
+
+    /*
+        @ 달력에서 모든 일정 보여주기 - 유저아이디 필요
+        get api/calendar
+
+     */
+
+    @GetMapping
+    public List<Calendar> getAllCalendarsByUserId() {
+        Long userId = getCurrentUserIdFromSession();
+        return calendarService.getAllCalendarsByUserId(userId);
+    }
+
+    /*
+        @ 달력에서 날짜별 일정 보여주기 - 유저아이디 필요
+        get api/calendar/:date
+     */
+
+    @GetMapping("/{date}")
+    public List<Calendar> getCalendarByUserIdAndDate(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
-        log.info("request : {}", request);
-        return calendarService.createCalendar(request);
-
+        Long userId = getCurrentUserIdFromSession();
+        return calendarService.getCalendarByUserIdAndDate(userId, date);
     }
 
-    // 캘린더 관련 기능을 처리하는 컨트롤러 클래스
-    @GetMapping("/details")
-    public List<CalendarDetails> getCalendarDetails(@RequestParam String indexes) {
-        // indexes에 해당하는 모든 결과를 가져옵니다.
-        List<Calendar> calendars = calenderRepository.findByIndexes(indexes);
-
-        List<CalendarDetails> calendarDetailsList = new ArrayList<>();
-
-        for (Calendar calendar : calendars) {
-            CalendarDetails calendarDetails = new CalendarDetails();
-            calendarDetails.setSubjectdate(calendar.getDate());
-            calendarDetails.setCsubject(calendar.getSubject());
-            calendarDetailsList.add(calendarDetails);
-        }
-
-        return calendarDetailsList;
+    /*
+        @ 달력에서 시험 일정 삭제
+        delete api/calendar/:calendarId
+    */
+    @DeleteMapping("/{calendarId}")
+    public ResponseEntity<?> deleteCalendar(@PathVariable Long calendarId) {
+        calendarService.deleteCalendar(calendarId);
+        return ResponseEntity.ok().build();
     }
 
-    @Transactional
-    @DeleteMapping("/delete")
-    public String deleteCalendar(@RequestParam String indexes, @RequestParam String subject, @RequestParam String date) {
-        Calendar calendar = calenderRepository.deleteByIndexesAndSubjectAndDate(indexes, subject, date);
-
-        try {
-            if (calendar != null) {
-                calenderRepository.delete(calendar);
-                return "Deleted successfully";
-            } else {
-                return "WrongNote not found";
-            }
-        } catch (Exception e) {
-            return "Failed to delete";
-        }
-    }
 }

@@ -1,8 +1,10 @@
-package com.testmateback.dTestmate.calendar;
+package com.testmateback.dTestmate.calendar.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,12 +18,12 @@ public class Calendar {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = false)
-    private Long id;
+    private Long calendarId;
     @Column(nullable = false, unique = false)
-    private String indexes;
+    private Long userId;
     @Column(nullable = false, unique = false)
     private String subject;
     @Column(nullable = false, unique = false)
-    private String date;
+    private LocalDate date;
 
 }
