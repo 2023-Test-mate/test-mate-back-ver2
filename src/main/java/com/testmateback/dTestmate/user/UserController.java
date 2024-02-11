@@ -40,9 +40,8 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
 
-        // TODO : 한국어 인코딩 설정 추가하기
-        @GetMapping("api/user-check/{userId}")
-        public ResponseEntity<String> checkDuplicateUserId(@PathVariable String userId) {
+        @GetMapping("api/user-check")
+        public ResponseEntity<String> checkDuplicateUserId(@RequestParam String userId) {
             boolean isDuplicate = userService.isUserIdDuplicate(userId);
             if (isDuplicate) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("User with the same user ID already exists");
