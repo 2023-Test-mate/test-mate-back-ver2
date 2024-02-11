@@ -1,4 +1,4 @@
-package com.testmateback.dTestmate.goal;
+package com.testmateback.dTestmate.wrongnote.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,25 +11,26 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "goal")
-public class Goal {
+@Table(name = "wrongnote")
+public class WrongNote {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = false)
-    private Long id;
+    private Long noteId;
 
     @Column(nullable = false, unique = false)
-    private String indexes;
+    private int subjectId;
     @Column(nullable = false, unique = false)
-    private String subject;
+    private int grade;
     @Column(nullable = false, unique = false)
-    private String grade;
-    @Column(nullable = false, unique = false)
-    private String goal;
-    @Column(nullable = false, unique = false)
-    private boolean checks;
+    private String title;
 
-    public boolean getCheck() {
-        return checks;
-    }
+    private String problemText;
+    private String problemImg;
+
+    private String solution;
+    private String styles;
+    private String reason;
+    private String range;
+
 }

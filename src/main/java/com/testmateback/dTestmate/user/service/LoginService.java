@@ -3,9 +3,11 @@ package com.testmateback.dTestmate.user.service;
 import com.testmateback.dTestmate.user.dto.LoginReq;
 import com.testmateback.dTestmate.user.dto.SignUpReq;
 import com.testmateback.dTestmate.user.entity.User;
+import com.testmateback.dTestmate.wrongnote.DataLoader;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +20,8 @@ public class LoginService {
 
     private final static String LOGIN_SESSION_KEY = "USER_ID";
     private final UserService userService;
-
+    @Autowired
+    private DataLoader dataLoader;
     @Transactional
     public void signUp(SignUpReq signUpReq, HttpSession session) {
         try {
@@ -30,6 +33,7 @@ public class LoginService {
                     signUpReq.getPassword()
             );
             userService.createUser(user);
+            dataLoader.DataInit(user.getId());
             session.setAttribute(LOGIN_SESSION_KEY, user.getId());
         } catch (Exception e) {
             log.error("Error during user sign-up", e);
