@@ -1,57 +1,58 @@
 package com.testmateback.dTestmate.wrongnote.controller;
 
-import com.testmateback.dTestmate.wrongnote.dto.CreateWrongNote;
-import com.testmateback.dTestmate.wrongnote.WrongNote;
-import com.testmateback.dTestmate.wrongnote.WrongNoteDetails;
-import com.testmateback.dTestmate.wrongnote.repository.WrongNoteRepository;
+import com.testmateback.dTestmate.wrongnote.dao.WrongNoteFilter;
+import com.testmateback.dTestmate.wrongnote.dto.CreateWrongNoteReq;
+import com.testmateback.dTestmate.wrongnote.entity.WrongNote;
 import com.testmateback.dTestmate.wrongnote.service.WrongNoteService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@RequestMapping("/api/note")
 public class WrongNoteController {
 
-    private final WrongNoteService wrongNoteService;
+    @Autowired
+    private WrongNoteService wrongNoteService;
 
-    public WrongNoteController(WrongNoteService wrongNoteService) {
-        this.wrongNoteService = wrongNoteService;
+    @PostMapping
+    public WrongNote addWrongNote(@RequestBody CreateWrongNoteReq createWrongNoteReq) {
+        return wrongNoteService.createWrongNote(createWrongNoteReq);
     }
 
-    // 오답 노트 정보 생성 요청 처리
-    @PostMapping("/wrong-note")
-    public CreateWrongNote.Response createWrongNote(
-            @Valid @RequestBody CreateWrongNote.Request request
-    ) {
-        log.info("request : {} ", request);
-        return wrongNoteService.createWrongNote(request);
+    @GetMapping
+    public List<WrongNote> getAllWrongNotes() {
+        return wrongNoteService.getAllWrongNotes();
     }
 
-    // 오답 노트 관련 기능을 처리하는 컨트롤러 클래스
-    @RestController
-    @RequestMapping("/wrong-note")
-    @RequiredArgsConstructor
-    public class wrongController {
-        @Autowired
-        private WrongNoteRepository wrongNoteRepository;
+    @GetMapping("/{noteId}")
+    public ResponseEntity<WrongNote> getWrongNoteById(@PathVariable Long noteId) {
+        Optional<WrongNote> wrongNoteOptional = wrongNoteService.getWrongNoteById(noteId);
+        return wrongNoteOptional.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
-        @GetMapping("/details")
-        public WrongNoteDetails getWrongNoteDetails(@RequestParam String indexes, @RequestParam String subject, @RequestParam String grade) {
-            WrongNoteDetails wrongNoteDetails = new WrongNoteDetails();
-            wrongNoteDetails.setIndexes(indexes);
+    @GetMapping("/filter")
+    public List<WrongNoteFilter> getFilteredWrongNotes(@RequestParam(required = false) Integer subjectId,
+                                                       @RequestParam(required = false) Integer grade) {
+        return wrongNoteService.getFilteredWrongNotes(subjectId, grade);
+    }
 
-            WrongNote wrongNote = (WrongNote) wrongNoteRepository.findBySubjectAndGradeAndIndexes(indexes, grade, grade).orElse(null);
 
-            if (wrongNote != null) {
-                wrongNoteDetails.setWtitle(wrongNote.getTitle());
-                wrongNoteDetails.setWreason(wrongNote.getReason());
-                wrongNoteDetails.setWphoto(wrongNote.getPhoto());
-                wrongNoteDetails.setWproblem(wrongNote.getProblem());
-            }
-            return wrongNoteDetails;
-        }
+    @PutMapping("/{noteId}")
+    public ResponseEntity<WrongNote> updateWrongNote(@PathVariable Long noteId, @RequestBody WrongNote updatedWrongNote) {
+        WrongNote result = wrongNoteService.updateWrongNote(noteId, updatedWrongNote);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<Void> deleteWrongNote(@PathVariable Long noteId) {
+        wrongNoteService.deleteWrongNote(noteId);
+        return ResponseEntity.noContent().build();
     }
 }
+
