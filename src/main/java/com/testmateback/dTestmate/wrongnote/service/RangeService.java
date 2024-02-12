@@ -45,7 +45,7 @@ public class RangeService {
             existingRange.setRange(updatedRange.getRange());
             return rangeRepository.save(existingRange);
         } else {
-            return null; // or throw an exception, depending on your requirements
+            return null;
         }
     }
 
