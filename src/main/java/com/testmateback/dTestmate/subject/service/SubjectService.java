@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectService {
@@ -92,6 +93,14 @@ public class SubjectService {
         return subjectRepository.save(subject);
     }
 
+    // 홈 - 학년 정보에 해당하는 과목 리스트 가져오기
+    public List<SubjectInfoDTO> getSubjectInfo(int grade) {
+        Long userId = getCurrentUserIdFromSession();
+        List<Subject> subjects = subjectRepository.findByUserIdAndGrade(userId, grade);
+        return subjects.stream()
+                .map(subject -> new SubjectInfoDTO(subject.getSubjectName(), subject.getImg()))
+                .collect(Collectors.toList());
+    }
     private Long getCurrentUserIdFromSession() {
         // 세션에서 사용자 ID를 가져오는 로직
         Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);

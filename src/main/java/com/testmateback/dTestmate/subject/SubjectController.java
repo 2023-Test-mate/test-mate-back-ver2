@@ -1,13 +1,12 @@
 package com.testmateback.dTestmate.subject;
 
-import com.testmateback.dTestmate.subject.dto.CreateFailReq;
-import com.testmateback.dTestmate.subject.dto.CreateSubject;
-import com.testmateback.dTestmate.subject.dto.CreateTestRecordReq;
-import com.testmateback.dTestmate.subject.dto.UpdateSubjectReq;
+import com.testmateback.dTestmate.subject.dto.*;
 import com.testmateback.dTestmate.subject.entity.Subject;
 import com.testmateback.dTestmate.subject.service.SubjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/subject")
@@ -57,6 +56,15 @@ public class SubjectController {
     public ResponseEntity<Subject> updateFail(@PathVariable Long subjectId, @RequestBody CreateFailReq createFailReq) {
         Subject updateFailed = subjectService.updateFail(subjectId, createFailReq);
         return ResponseEntity.ok(updateFailed);
+    }
+
+    /*
+        @ 홈에서 로그인한 유저와 학년에 대한 과목 리스트
+
+     */
+    @GetMapping("/{grade}")
+    public List<SubjectInfoDTO> getSubjectInfo(@PathVariable int grade) {
+        return subjectService.getSubjectInfo(grade);
     }
 
 }

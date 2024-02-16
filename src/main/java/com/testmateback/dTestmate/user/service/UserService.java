@@ -1,9 +1,11 @@
 package com.testmateback.dTestmate.user.service;
 
 import com.testmateback.dTestmate.user.dto.SignUpReq;
+import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
 import com.testmateback.dTestmate.user.entity.User;
 import com.testmateback.dTestmate.user.repository.UserRepository;
 import com.testmateback.dTestmate.util.Encryptor;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,11 +21,15 @@ public class UserService {
 
     private final Encryptor encryptor;
     private final UserRepository userRepository;
+    private static final String LOGIN_SESSION_KEY = "USER_ID";
+    private final HttpSession session;
+
 
     @Autowired
-    public UserService(Encryptor encryptor, UserRepository userRepository) {
+    public UserService(Encryptor encryptor, UserRepository userRepository, HttpSession session) {
         this.encryptor = encryptor;
         this.userRepository = userRepository;
+        this.session = session;
     }
 
     @Transactional
@@ -56,4 +62,24 @@ public class UserService {
         return userRepository.findByUserId(userId).isPresent();
     }
 
+    // 입력한 유저의 이름과 학년 정보 가져오기
+    public UserDetailsDTO getUserDetails() {
+        Long userId = getCurrentUserIdFromSession();
+        return userRepository.findById(userId)
+                .map(user -> new UserDetailsDTO(user.getName(), user.getGrade()))
+                .orElse(null);
+    }
+
+
+
+    private Long getCurrentUserIdFromSession() {
+        // 세션에서 사용자 ID를 가져오는 로직
+        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
+
+        if (userIdAttribute != null) {
+            return (Long) userIdAttribute;
+        } else {
+            throw new RuntimeException("User not logged in");
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.testmateback.dTestmate.user;
 
 import com.testmateback.dTestmate.user.dto.LoginReq;
 import com.testmateback.dTestmate.user.dto.SignUpReq;
+import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
 import com.testmateback.dTestmate.user.service.LoginService;
 import com.testmateback.dTestmate.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -48,6 +49,14 @@ public class UserController {
             } else {
                 return ResponseEntity.ok("User ID is available");
             }
+        }
+
+        @GetMapping("api/user/details")
+        public UserDetailsDTO getUserDetails() {
+            // 서비스를 통해 사용자 정보를 가져오기
+            UserDetailsDTO userDetailsDTO = userService.getUserDetails();
+
+            return userDetailsDTO;
         }
     }
 
