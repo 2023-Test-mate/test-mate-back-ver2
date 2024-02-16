@@ -60,11 +60,15 @@ public class SubjectController {
 
     /*
         @ 홈에서 로그인한 유저와 학년에 대한 과목 리스트
-
+        get /api/subject/:grade
      */
     @GetMapping("/{grade}")
     public List<SubjectInfoDTO> getSubjectInfo(@PathVariable int grade) {
         return subjectService.getSubjectInfo(grade);
     }
 
+    @GetMapping("home/{subjectId}")
+    public SubjectDetailsDTO getSubjectDetails(@PathVariable Long subjectId) {
+        return subjectService.getSubjectDetailsById(subjectId);
+    }
 }

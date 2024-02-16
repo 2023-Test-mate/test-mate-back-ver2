@@ -21,6 +21,11 @@ configurations {
 	}
 }
 
+compileJava {
+	options.compilerArgs << '-parameters'
+}
+
+
 // Maven Central 저장소 사용
 repositories {
 	mavenCentral()

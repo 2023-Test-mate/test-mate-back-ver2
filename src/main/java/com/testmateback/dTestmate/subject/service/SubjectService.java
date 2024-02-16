@@ -98,9 +98,29 @@ public class SubjectService {
         Long userId = getCurrentUserIdFromSession();
         List<Subject> subjects = subjectRepository.findByUserIdAndGrade(userId, grade);
         return subjects.stream()
-                .map(subject -> new SubjectInfoDTO(subject.getSubjectName(), subject.getImg()))
+                .map(subject -> new SubjectInfoDTO(subject.getSubjectId(), subject.getSubjectName(), subject.getImg()))
                 .collect(Collectors.toList());
     }
+
+    // 홈 - 학년 정보와 과목을 입력받아 과목 정보 불러오기
+    public SubjectDetailsDTO getSubjectDetailsById(Long subjectId) {
+        Subject subject = subjectRepository.findById(subjectId).orElse(null);
+
+        if (subject != null) {
+            SubjectDetailsDTO subjectDetailsDTO = new SubjectDetailsDTO();
+            subjectDetailsDTO.setSubjectId(subject.getSubjectId());
+            subjectDetailsDTO.setExams(subject.getPastExams());
+            subjectDetailsDTO.setDate(subject.getDate());
+            subjectDetailsDTO.setLevel(subject.getLevel());
+            subjectDetailsDTO.setGoalScore(subject.getGoalScore());
+            subjectDetailsDTO.setFail(subject.getFail());
+
+            return subjectDetailsDTO;
+        } else {
+            return null;
+        }
+    }
+
     private Long getCurrentUserIdFromSession() {
         // 세션에서 사용자 ID를 가져오는 로직
         Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);

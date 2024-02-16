@@ -20,7 +20,4 @@ public class Exam {
     private String examName;
     private int examScore;
 
-//    @Column(name = "user_id")
-//    private Long userId; // 이제 User 객체 대신에 userId를 저장
-
 }

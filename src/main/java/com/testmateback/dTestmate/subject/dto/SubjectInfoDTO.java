@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SubjectInfoDTO {
+    private Long subjectId;
     private String subjectName;
     private String img;
 }
