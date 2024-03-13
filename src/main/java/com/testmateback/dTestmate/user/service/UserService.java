@@ -35,17 +35,17 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
 
-        // 이메일 중복 확인
-//        userRepository.findByEmail(user.getEmail())
-//                .ifPresent(u -> {
-//                    throw new RuntimeException("User with the same email already exists");
-//                });
+//         이메일 중복 확인
+        userRepository.findByEmail(user.getEmail())
+                .ifPresent(u -> {
+                    throw new RuntimeException("User with the same email already exists");
+                });
 
-        // 유저 아이디 중복 확인
-//        userRepository.findByUserId(user.getUserId())
-//                .ifPresent(u -> {
-//                    throw new DuplicateKeyException("User with the same user ID already exists");
-//                });
+//         유저 아이디 중복 확인
+        userRepository.findByUserId(user.getUserId())
+                .ifPresent(u -> {
+                    throw new DuplicateKeyException("User with the same user ID already exists");
+                });
 
 
         user.setPassword(encryptor.encrypt(user.getPassword()));

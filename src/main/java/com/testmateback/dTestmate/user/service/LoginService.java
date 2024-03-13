@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,15 +43,15 @@ public class LoginService {
         }
     }
 
-    public void login(LoginReq loginReq, HttpSession session) {
+
+    public ResponseEntity<String> login(LoginReq loginReq, HttpSession session) {
         Long userId = (Long) session.getAttribute(LOGIN_SESSION_KEY);
-        if (userId == null) {
-            Optional<User> user = userService.findUserByUserIdAndPassword(loginReq.getUserId(), loginReq.getPassword());
-            if (user.isPresent()) {
-                session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
-            } else {
-                throw new RuntimeException("Invalid password or user not found");
-            }
+        Optional<User> user = userService.findUserByUserIdAndPassword(loginReq.getUserId(), loginReq.getPassword());
+        if (user.isPresent()) {
+            session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 되지 않았습니다.");
         }
     }
 
