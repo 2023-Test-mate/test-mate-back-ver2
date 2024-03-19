@@ -67,6 +67,10 @@ public class SubjectController {
         return subjectService.getSubjectInfo(grade);
     }
 
+    /*
+        @ 홈에서 학년정보와 과목을 입력받아서 과목정보를 불러오기
+        get  /api/subject/home/:subjectId
+     */
     @GetMapping("home/{subjectId}")
     public SubjectDetailsDTO getSubjectDetails(@PathVariable Long subjectId) {
         return subjectService.getSubjectDetailsById(subjectId);

@@ -7,7 +7,6 @@ import com.testmateback.dTestmate.wrongnote.dto.CreateWrongNoteReq;
 import com.testmateback.dTestmate.wrongnote.entity.WrongNote;
 import com.testmateback.dTestmate.wrongnote.repository.WrongNoteRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -101,7 +100,7 @@ public class WrongNoteService {
         }
     }
 
-    // 홈 -
+    // 홈 - 문제 범위 top3
     public List<String> findTop3RangesBySubjectId(int subjectId) {
         List<WrongNote> subjectWrongNotes = wrongNoteRepository.findBySubjectId(subjectId);
 
@@ -122,6 +121,22 @@ public class WrongNoteService {
 
         // 상위 3개의 range 추출
         return sortedRanges.subList(0, Math.min(3, sortedRanges.size()));
+    }
+
+    // 홈 - 오답실수 top 3
+    public List<Object[]> findReasonsWithPercentageBySubjectId(int subjectId) {
+        List<Object[]> allReasonsWithPercentage = wrongNoteRepository.findReasonsWithPercentageBySubjectId(subjectId);
+        List<Object[]> topThreeReasons = new ArrayList<>();
+        int count = 0;
+        for (Object[] reasonWithPercentage : allReasonsWithPercentage) {
+            if (count < 3) {
+                topThreeReasons.add(reasonWithPercentage);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topThreeReasons;
     }
 
 }

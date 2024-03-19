@@ -57,5 +57,10 @@ public class WrongNoteController {
     public List<String> getTop3RangesBySubjectId(@PathVariable int subjectId) {
         return wrongNoteService.findTop3RangesBySubjectId(subjectId);
     }
+
+    @GetMapping("/top3reasons/{subjectId}")
+    public List<Object[]> findReasonsWithPercentageBySubjectId(@PathVariable int subjectId) {
+        return wrongNoteService.findReasonsWithPercentageBySubjectId(subjectId);
+    }
 }
 
