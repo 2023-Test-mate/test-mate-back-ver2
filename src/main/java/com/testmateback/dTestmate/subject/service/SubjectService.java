@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectService {
@@ -90,6 +91,34 @@ public class SubjectService {
         calendarRepository.save(calendar);
 
         return subjectRepository.save(subject);
+    }
+
+    // 홈 - 학년 정보에 해당하는 과목 리스트 가져오기
+    public List<SubjectInfoDTO> getSubjectInfo(int grade) {
+        Long userId = getCurrentUserIdFromSession();
+        List<Subject> subjects = subjectRepository.findByUserIdAndGrade(userId, grade);
+        return subjects.stream()
+                .map(subject -> new SubjectInfoDTO(subject.getSubjectId(), subject.getSubjectName(), subject.getImg()))
+                .collect(Collectors.toList());
+    }
+
+    // 홈 - 학년 정보와 과목을 입력받아 과목 정보 불러오기
+    public SubjectDetailsDTO getSubjectDetailsById(Long subjectId) {
+        Subject subject = subjectRepository.findById(subjectId).orElse(null);
+
+        if (subject != null) {
+            SubjectDetailsDTO subjectDetailsDTO = new SubjectDetailsDTO();
+            subjectDetailsDTO.setSubjectId(subject.getSubjectId());
+            subjectDetailsDTO.setExams(subject.getPastExams());
+            subjectDetailsDTO.setDate(subject.getDate());
+            subjectDetailsDTO.setLevel(subject.getLevel());
+            subjectDetailsDTO.setGoalScore(subject.getGoalScore());
+            subjectDetailsDTO.setFail(subject.getFail());
+
+            return subjectDetailsDTO;
+        } else {
+            return null;
+        }
     }
 
     private Long getCurrentUserIdFromSession() {

@@ -4,7 +4,6 @@ import com.testmateback.dTestmate.wrongnote.dao.WrongNoteFilter;
 import com.testmateback.dTestmate.wrongnote.dto.CreateWrongNoteReq;
 import com.testmateback.dTestmate.wrongnote.entity.WrongNote;
 import com.testmateback.dTestmate.wrongnote.service.WrongNoteService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +52,15 @@ public class WrongNoteController {
     public ResponseEntity<Void> deleteWrongNote(@PathVariable Long noteId) {
         wrongNoteService.deleteWrongNote(noteId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/top3ranges/{subjectId}")
+    public List<String> getTop3RangesBySubjectId(@PathVariable int subjectId) {
+        return wrongNoteService.findTop3RangesBySubjectId(subjectId);
+    }
+
+    @GetMapping("/top3reasons/{subjectId}")
+    public List<Object[]> findReasonsWithPercentageBySubjectId(@PathVariable int subjectId) {
+        return wrongNoteService.findReasonsWithPercentageBySubjectId(subjectId);
     }
 }
 

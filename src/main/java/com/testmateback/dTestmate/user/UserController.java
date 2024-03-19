@@ -2,8 +2,10 @@ package com.testmateback.dTestmate.user;
 
 import com.testmateback.dTestmate.user.dto.LoginReq;
 import com.testmateback.dTestmate.user.dto.SignUpReq;
+import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
 import com.testmateback.dTestmate.user.service.LoginService;
 import com.testmateback.dTestmate.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +31,10 @@ public class UserController {
         }
 
         @PostMapping("/api/login")
-        public ResponseEntity<Void> login(@RequestBody LoginReq loginReq, HttpSession httpSession) {
-            loginService.login(loginReq, httpSession);
-            return ResponseEntity.ok().build();
+        public ResponseEntity<String> login(@RequestBody LoginReq loginReq, HttpSession httpSession, HttpServletResponse httpServletResponse) {
+            return loginService.login(loginReq, httpSession);
         }
+
 
         @PostMapping("/api/logout")
         public ResponseEntity<Void> logout(HttpSession httpSession) {
@@ -48,6 +50,14 @@ public class UserController {
             } else {
                 return ResponseEntity.ok("User ID is available");
             }
+        }
+
+        @GetMapping("api/user/details")
+        public UserDetailsDTO getUserDetails() {
+            // 서비스를 통해 사용자 정보를 가져오기
+            UserDetailsDTO userDetailsDTO = userService.getUserDetails();
+
+            return userDetailsDTO;
         }
     }
 

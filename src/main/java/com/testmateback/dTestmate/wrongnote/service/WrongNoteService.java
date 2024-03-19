@@ -9,8 +9,8 @@ import com.testmateback.dTestmate.wrongnote.repository.WrongNoteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,4 +99,44 @@ public class WrongNoteService {
             throw new EntityNotFoundException("해당 ID의 WrongNote를 찾을 수 없습니다: " + noteId);
         }
     }
+
+    // 홈 - 문제 범위 top3
+    public List<String> findTop3RangesBySubjectId(int subjectId) {
+        List<WrongNote> subjectWrongNotes = wrongNoteRepository.findBySubjectId(subjectId);
+
+        // subjectId에 속하는 모든 range 데이터 수집
+        List<String> allRanges = subjectWrongNotes.stream()
+                .map(WrongNote::getRange)
+                .collect(Collectors.toList());
+
+        // 각 range의 등장 횟수를 세기
+        Map<String, Long> rangeCount = allRanges.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // 등장 횟수를 기준으로 내림차순 정렬
+        List<String> sortedRanges = rangeCount.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // 상위 3개의 range 추출
+        return sortedRanges.subList(0, Math.min(3, sortedRanges.size()));
+    }
+
+    // 홈 - 오답실수 top 3
+    public List<Object[]> findReasonsWithPercentageBySubjectId(int subjectId) {
+        List<Object[]> allReasonsWithPercentage = wrongNoteRepository.findReasonsWithPercentageBySubjectId(subjectId);
+        List<Object[]> topThreeReasons = new ArrayList<>();
+        int count = 0;
+        for (Object[] reasonWithPercentage : allReasonsWithPercentage) {
+            if (count < 3) {
+                topThreeReasons.add(reasonWithPercentage);
+                count++;
+            } else {
+                break;
+            }
+        }
+        return topThreeReasons;
+    }
+
 }
