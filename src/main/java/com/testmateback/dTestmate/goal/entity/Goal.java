@@ -21,7 +21,7 @@ public class Goal {
     @Column(nullable = false, unique = false)
     private int subjectId;
     @Column(nullable = false, unique = false)
-    private int grade;
+    private int semester;
     @Column(nullable = false, unique = false)
     private String goal;
     @Column(nullable = false, unique = false)

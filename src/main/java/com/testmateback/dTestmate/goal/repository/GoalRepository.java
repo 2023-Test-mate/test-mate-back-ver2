@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
+    List<Goal> findBySubjectIdAndSemester(int subjectId, int semester);
 }
