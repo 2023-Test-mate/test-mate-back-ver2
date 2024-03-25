@@ -28,10 +28,8 @@ public class WrongNoteService {
         wrongNote.setSubjectId(createWrongNoteReq.getSubjectId());
         wrongNote.setGrade(createWrongNoteReq.getGrade());
         wrongNote.setTitle(createWrongNoteReq.getTitle());
-        wrongNote.setProblemImg(createWrongNoteReq.getProblemImg());
-        wrongNote.setProblemText(createWrongNoteReq.getProblemText());
-        wrongNote.setSolution(createWrongNoteReq.getSolution());
         wrongNote.setStyles(createWrongNoteReq.getStyles());
+        wrongNote.setImgs(createWrongNoteReq.getImgs());
         wrongNote.setReason(createWrongNoteReq.getReason());
         wrongNote.setRange(createWrongNoteReq.getRange());
 
@@ -64,8 +62,7 @@ public class WrongNoteService {
                 wrongNote.getSubjectId(),
                 wrongNote.getGrade(),
                 wrongNote.getTitle(),
-                wrongNote.getProblemText(),
-                wrongNote.getProblemImg(),
+                wrongNote.getImgs(),
                 wrongNote.getReason()
         );
     }
@@ -75,13 +72,12 @@ public class WrongNoteService {
 
         if (existingWrongNoteOptional.isPresent()) {
             WrongNote existingWrongNote = existingWrongNoteOptional.get();
+            existingWrongNote.setNoteId(updatedWrongNote.getNoteId());
             existingWrongNote.setSubjectId(updatedWrongNote.getSubjectId());
             existingWrongNote.setGrade(updatedWrongNote.getGrade());
             existingWrongNote.setTitle(updatedWrongNote.getTitle());
-            existingWrongNote.setProblemText(updatedWrongNote.getProblemText());
-            existingWrongNote.setProblemImg(updatedWrongNote.getProblemImg());
-            existingWrongNote.setSolution(updatedWrongNote.getSolution());
             existingWrongNote.setStyles(updatedWrongNote.getStyles());
+            existingWrongNote.setImgs(updatedWrongNote.getImgs());
             existingWrongNote.setReason(updatedWrongNote.getReason());
             existingWrongNote.setRange(updatedWrongNote.getRange());
 

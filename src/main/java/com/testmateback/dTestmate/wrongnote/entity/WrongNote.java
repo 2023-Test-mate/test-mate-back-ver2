@@ -25,10 +25,7 @@ public class WrongNote {
     @Column(nullable = false, unique = false)
     private String title;
 
-    private String problemText;
-    private String problemImg;
-
-    private String solution;
+    private String imgs;
     private String styles;
     private String reason;
     private String range;

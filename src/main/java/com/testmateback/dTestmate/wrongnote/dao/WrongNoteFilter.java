@@ -12,7 +12,6 @@ public class WrongNoteFilter {
     private int subjectId;
     private int grade;
     private String title;
-    private String problemText;
-    private String problemImg;
+    private String imgs;
     private String reason;
 }
