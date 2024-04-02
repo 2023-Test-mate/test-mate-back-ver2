@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Exam {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//db의 auto_increment과 같은 역할
     private Long id;
 
     private String examName;

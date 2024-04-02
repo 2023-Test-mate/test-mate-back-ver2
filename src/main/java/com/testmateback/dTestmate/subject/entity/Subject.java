@@ -25,8 +25,8 @@ public class Subject {
     private String subjectName;
     private int grade;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subject_id")
+    @OneToMany(cascade = CascadeType.ALL)//외래키 설정
+    @JoinColumn(name = "subject_id")//subject_id라는 참조키를 가리킨다
     private List<Exam> pastExams;
 
     private LocalDate date;
