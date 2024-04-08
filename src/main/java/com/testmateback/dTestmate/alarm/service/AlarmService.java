@@ -35,10 +35,10 @@ public class AlarmService{
         return (entity != null) ? entity.isCompleted() : false ;
     }
 
-    public void updateCompletedValue(Long userId, AlarmDTO completed) {
+    public void updateCompletedValue(Long userId, boolean completed) {
         Alarm entity = alarmRepository.findByUserId(userId);
         if (entity != null) {
-            entity.setCompleted(completed.isCompleted());
+            entity.setCompleted(completed);
             alarmRepository.save(entity);
         } else {
             throw new RuntimeException("alarm don't change");

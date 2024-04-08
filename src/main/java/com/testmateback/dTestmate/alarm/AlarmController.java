@@ -29,8 +29,8 @@ public class AlarmController {
         return ResponseEntity.ok(completedValue);
     }
 
-    @PatchMapping("/update_alarm/{userId}")
-    public ResponseEntity<String> updateCompletedValue(@PathVariable Long userId, @RequestBody AlarmDTO completed) {
+    @PatchMapping("/update_alarm/{userId}/{completed}")
+    public ResponseEntity<String> updateCompletedValue(@PathVariable Long userId, @PathVariable boolean completed) {
         alarmService.updateCompletedValue(userId, completed);
         return ResponseEntity.ok("Value updated successfully.");
     }
