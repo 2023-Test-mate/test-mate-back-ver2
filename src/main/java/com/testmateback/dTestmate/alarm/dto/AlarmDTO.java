@@ -1,8 +1,16 @@
 package com.testmateback.dTestmate.alarm.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@Data
 public class AlarmDTO {
-    private boolean completed;
+    private static boolean completed;
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
+    public static void setCompleted(boolean completed) {
+        AlarmDTO.completed = completed;
+    }
 }
