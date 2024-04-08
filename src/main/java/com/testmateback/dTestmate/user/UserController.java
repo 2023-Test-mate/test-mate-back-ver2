@@ -1,5 +1,8 @@
 package com.testmateback.dTestmate.user;
 
+import com.testmateback.dTestmate.alarm.dto.AlarmDTO;
+import com.testmateback.dTestmate.alarm.entity.Alarm;
+import com.testmateback.dTestmate.alarm.service.AlarmService;
 import com.testmateback.dTestmate.user.dto.LoginReq;
 import com.testmateback.dTestmate.user.dto.SignUpReq;
 import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
@@ -23,10 +26,13 @@ public class UserController {
 
         private final LoginService loginService;
         private final UserService userService;
+        private final AlarmService alarmService;
+
 
         @PostMapping("/api/sign-up")
         public ResponseEntity<Void> login(@RequestBody SignUpReq signUpReq, HttpSession httpSession) {
             loginService.signUp(signUpReq, httpSession);
+            Alarm addedAlarm = alarmService.addAlarm();
             return ResponseEntity.ok().build();
         }
 
@@ -59,6 +65,7 @@ public class UserController {
 
             return userDetailsDTO;
         }
+
     }
 
 }
