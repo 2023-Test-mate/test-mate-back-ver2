@@ -1,6 +1,17 @@
 # ✍🏻 완벽한 시험대비 나의 친구, 시험메이트 
 ### 📜 TestMate란
 > **‘시험 메이트’** 는 시험지 분석을 통해 개인의 학습 수준을 파악하고, 향상시키기 위한 자기주도학습 지원 앱입니다.
+<div align="left">
+  <p>
+    <a href="https://upbeat-cloudberry-c89.notion.site/cd9c20bf88f446dc9b552480b63e3892?v=5b61091d1803461faf2aab4902316278&pvs=4">📘개발일지</a>
+    &nbsp; | &nbsp; 
+    <a href="https://upbeat-cloudberry-c89.notion.site/API-52fb8a25ed6a40edbf6b2691bddbe3ab?pvs=4">✅ API 명세서</a>
+    &nbsp; | &nbsp; 
+    <a href="https://github.com/2023-Test-mate/.github/blob/main/%EC%8B%9C%ED%97%98%EB%A9%94%EC%9D%B4%ED%8A%B8%20%EA%B2%B0%EC%84%A0%ED%8F%89%EA%B0%80.pptx">📌발표자료</a>
+  </p>
+</div>
+
+
 <div align="center">
 <img width="800" alt="image" src="https://github.com/2023-Test-mate/.github/assets/103114387/8607cae2-8865-4a22-bd82-a9089f01478a">
 </div>
