@@ -1,11 +1,8 @@
 package com.testmateback.dTestmate.user;
 
-import com.testmateback.dTestmate.alarm.dto.AlarmDTO;
 import com.testmateback.dTestmate.alarm.entity.Alarm;
 import com.testmateback.dTestmate.alarm.service.AlarmService;
-import com.testmateback.dTestmate.user.dto.LoginReq;
-import com.testmateback.dTestmate.user.dto.SignUpReq;
-import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
+import com.testmateback.dTestmate.user.dto.*;
 import com.testmateback.dTestmate.user.service.LoginService;
 import com.testmateback.dTestmate.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,6 +53,13 @@ public class UserController {
             } else {
                 return ResponseEntity.ok("User ID is available");
             }
+        }
+
+        @GetMapping("api/find-id")
+        public ResponseEntity<UserIdRes> findUserId(@RequestBody UserIdReq userIdReq) {
+            UserIdRes userIdRes = userService.findUserIdByEmail(userIdReq.getEmail());
+
+            return ResponseEntity.ok(userIdRes);
         }
 
         @GetMapping("api/user/details")

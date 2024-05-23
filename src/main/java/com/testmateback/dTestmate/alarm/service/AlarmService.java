@@ -1,14 +1,9 @@
 package com.testmateback.dTestmate.alarm.service;
 
-import com.testmateback.dTestmate.alarm.dto.AlarmDTO;
 import com.testmateback.dTestmate.alarm.entity.Alarm;
 import com.testmateback.dTestmate.alarm.repository.AlarmRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AlarmService{
