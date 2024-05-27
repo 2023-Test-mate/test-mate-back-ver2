@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,13 @@ public class InquiryController {
     @GetMapping
     public ResponseEntity<List<Inquiry>> getAllInquiry() {
         return ResponseEntity.ok(inquiryService.findAll());
+    }
+
+    @GetMapping("/{inquiry_id}")
+    public ResponseEntity<Inquiry> getInquiryById(@PathVariable("inquiry_id") Long id) {
+        Inquiry inquiry = inquiryService.findInquiryById(id);
+
+        return ResponseEntity.ok(inquiry);
     }
 
 }

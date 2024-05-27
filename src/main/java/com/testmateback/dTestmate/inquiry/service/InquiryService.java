@@ -3,6 +3,7 @@ package com.testmateback.dTestmate.inquiry.service;
 import com.testmateback.dTestmate.inquiry.dto.CreateInquiryReq;
 import com.testmateback.dTestmate.inquiry.entity.Inquiry;
 import com.testmateback.dTestmate.inquiry.respository.InquiryRepository;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class InquiryService {
         inquiry.setTitle(CreateInquiryReq.getTitle());
         inquiry.setImgs(CreateInquiryReq.getImgs());
         return inquiryRepository.save(inquiry);
+    }
+
+    public Inquiry findInquiryById(Long id) {
+        return inquiryRepository.findByInquiryId(id);
     }
 
     public List<Inquiry> findAll() {
