@@ -1,5 +1,6 @@
 package com.testmateback.dTestmate.user.service;
 
+import com.testmateback.dTestmate.user.dto.PasswordRes;
 import com.testmateback.dTestmate.user.dto.UserIdReq;
 import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
 import com.testmateback.dTestmate.user.dto.UserIdRes;
@@ -80,10 +81,12 @@ public class UserService {
         }
     }
 
-//    public UserIdReq findPasswordByEmail(String email){
+//    public PasswordRes findPasswordByEmail(String email){
 //        Optional<User> user = userRepository.findByEmail(email);
 //        if(user.isPresent()){
-//            return new UserIdRes(user.get().getPassword());
+//            return new PasswordRes(user.get().getPassword());
+//        }else{
+//            throw new RuntimeException("User not found");
 //        }
 //    }
 

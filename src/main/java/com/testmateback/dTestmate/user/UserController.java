@@ -62,6 +62,12 @@ public class UserController {
             return ResponseEntity.ok(userIdRes);
         }
 
+//        @GetMapping("api/find-password")
+//        public ResponseEntity<PasswordRes> findPassword(@RequestBody UserIdReq userIdReq) {
+//            PasswordRes passwordRes = userService.findPasswordByEmail(userIdReq.getEmail());
+//            return ResponseEntity.ok(passwordRes);
+//        }
+
         @GetMapping("api/user/details")
         public UserDetailsDTO getUserDetails() {
             // 서비스를 통해 사용자 정보를 가져오기
