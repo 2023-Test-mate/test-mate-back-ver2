@@ -1,7 +1,9 @@
 package com.testmateback.dTestmate.user.service;
 
-import com.testmateback.dTestmate.user.dto.SignUpReq;
+import com.testmateback.dTestmate.user.dto.PasswordRes;
+import com.testmateback.dTestmate.user.dto.UserIdReq;
 import com.testmateback.dTestmate.user.dto.UserDetailsDTO;
+import com.testmateback.dTestmate.user.dto.UserIdRes;
 import com.testmateback.dTestmate.user.entity.User;
 import com.testmateback.dTestmate.user.repository.UserRepository;
 import com.testmateback.dTestmate.util.Encryptor;
@@ -9,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +70,25 @@ public class UserService {
                 .map(user -> new UserDetailsDTO(user.getName(), user.getGrade()))
                 .orElse(null);
     }
+
+    //사용자 이메일로 유저의 아이디 가져오기
+    public UserIdRes findUserIdByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) {
+            return new UserIdRes(user.get().getUserId());
+        }else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+//    public PasswordRes findPasswordByEmail(String email){
+//        Optional<User> user = userRepository.findByEmail(email);
+//        if(user.isPresent()){
+//            return new PasswordRes(user.get().getPassword());
+//        }else{
+//            throw new RuntimeException("User not found");
+//        }
+//    }
 
 
 
