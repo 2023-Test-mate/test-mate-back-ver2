@@ -7,6 +7,7 @@ import com.testmateback.domain.subject.entity.Exam;
 import com.testmateback.domain.subject.entity.Subject;
 import com.testmateback.domain.subject.repository.SubjectRepository;
 import com.testmateback.domain.user.repository.UserRepository;
+import com.testmateback.domain.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,6 @@ public class SubjectService {
     private final CalendarRepository calendarRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
-    private final static String LOGIN_SESSION_KEY = "USER_ID";
 
     public SubjectService(SubjectRepository subjectRepository, CalendarRepository calendarRepository, UserRepository userRepository, HttpSession session) {
         this.subjectRepository = subjectRepository;
@@ -32,7 +32,7 @@ public class SubjectService {
 
     // 홈 - 과목 생성
     public Subject createSubject(CreateSubject createSubject) {
-        Long currentUserId = getCurrentUserIdFromSession();
+        Long currentUserId = SessionUtil.getCurrentUserIdFromSession(session);
         Subject subject = new Subject();
         subject.setUserId(currentUserId);
         subject.setSubjectName(createSubject.getSubjectName());
@@ -83,7 +83,7 @@ public class SubjectService {
         subject.setPastExams(pastExams);
 
         // 캘린더에 시험 정보 추가
-        Long currentUserId = getCurrentUserIdFromSession();
+        Long currentUserId = SessionUtil.getCurrentUserIdFromSession(session);
         Calendar calendar = new Calendar();
         calendar.setUserId(currentUserId);
         calendar.setSubject(subject.getSubjectName());
@@ -95,8 +95,8 @@ public class SubjectService {
 
     // 홈 - 학년 정보에 해당하는 과목 리스트 가져오기
     public List<SubjectInfoDTO> getSubjectInfo(int grade) {
-        Long userId = getCurrentUserIdFromSession();
-        List<Subject> subjects = subjectRepository.findByUserIdAndGrade(userId, grade);
+        Long currentUserId = SessionUtil.getCurrentUserIdFromSession(session);
+        List<Subject> subjects = subjectRepository.findByUserIdAndGrade(currentUserId, grade);
         return subjects.stream()
                 .map(subject -> new SubjectInfoDTO(subject.getSubjectId(), subject.getSubjectName(), subject.getImg()))
                 .collect(Collectors.toList());
@@ -118,17 +118,6 @@ public class SubjectService {
             return subjectDetailsDTO;
         } else {
             return null;
-        }
-    }
-
-    private Long getCurrentUserIdFromSession() {
-        // 세션에서 사용자 ID를 가져오는 로직
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-
-        if (userIdAttribute != null) {
-            return (Long) userIdAttribute;
-        } else {
-            throw new RuntimeException("User not logged in");
         }
     }
 

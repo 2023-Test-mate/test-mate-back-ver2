@@ -3,7 +3,10 @@ package com.testmateback.domain.wrongnote.controller;
 import com.testmateback.domain.wrongnote.dto.CreateReasonReq;
 import com.testmateback.domain.wrongnote.entity.Reason;
 import com.testmateback.domain.wrongnote.service.ReasonService;
+import com.testmateback.global.message.ResponseMessage;
+import com.testmateback.global.message.ResponseMessageType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +26,9 @@ public class ReasonController {
         post api/reasons
      */
     @PostMapping
-    public Reason createReason(@RequestBody CreateReasonReq createReasonReq){
-        return reasonService.createRange(createReasonReq);
+    public ResponseEntity<ResponseMessage> createReason(@RequestBody CreateReasonReq createReasonReq){
+        reasonService.createRange(createReasonReq);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
 
     /*
@@ -41,8 +45,9 @@ public class ReasonController {
         put api/reasons:reasonId
      */
     @PutMapping("/{reasonId}")
-    public Reason updateReason(@PathVariable int reasonId, @RequestBody Reason reason){
-        return reasonService.updateReason(reasonId, reason);
+    public ResponseEntity<ResponseMessage> updateReason(@PathVariable int reasonId, @RequestBody Reason reason){
+        reasonService.updateReason(reasonId, reason);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
 
     /*
@@ -50,8 +55,9 @@ public class ReasonController {
         delete api/reason:reasonId
      */
     @DeleteMapping("/{reasonId}")
-    public void deleteReason(@PathVariable int reasonId) {
+    public ResponseEntity<ResponseMessage> deleteReason(@PathVariable int reasonId) {
         reasonService.deleteReason(reasonId);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_DELETE.getMessage()));
     }
 
 }

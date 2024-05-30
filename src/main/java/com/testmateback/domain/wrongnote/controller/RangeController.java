@@ -3,7 +3,10 @@ package com.testmateback.domain.wrongnote.controller;
 import com.testmateback.domain.wrongnote.dto.CreateRangeReq;
 import com.testmateback.domain.wrongnote.entity.Range;
 import com.testmateback.domain.wrongnote.service.RangeService;
+import com.testmateback.global.message.ResponseMessage;
+import com.testmateback.global.message.ResponseMessageType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,9 @@ public class RangeController {
         post api/ranges
      */
     @PostMapping
-    public Range createRange(@RequestBody CreateRangeReq createRangeReq) {
-        return rangeService.createRange(createRangeReq);
+    public ResponseEntity<ResponseMessage> createRange(@RequestBody CreateRangeReq createRangeReq) {
+        rangeService.createRange(createRangeReq);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
 
     /*
@@ -43,8 +47,9 @@ public class RangeController {
         put api/ranges:rangeId
      */
     @PutMapping("/{rangeId}")
-    public Range updateRange(@PathVariable int rangeId, @RequestBody Range range) {
-        return rangeService.updateRange(rangeId, range);
+    public ResponseEntity<ResponseMessage> updateRange(@PathVariable int rangeId, @RequestBody Range range) {
+        rangeService.updateRange(rangeId, range);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
 
     /*
@@ -52,7 +57,8 @@ public class RangeController {
        delete api/ranges:rangeId
     */
     @DeleteMapping("/{rangeId}")
-    public void deleteRange(@PathVariable int rangeId) {
+    public ResponseEntity<ResponseMessage> deleteRange(@PathVariable int rangeId) {
         rangeService.deleteRange(rangeId);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_DELETE.getMessage()));
     }
 }

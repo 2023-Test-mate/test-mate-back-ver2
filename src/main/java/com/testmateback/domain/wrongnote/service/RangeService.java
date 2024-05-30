@@ -1,5 +1,6 @@
 package com.testmateback.domain.wrongnote.service;
 
+import com.testmateback.domain.util.SessionUtil;
 import com.testmateback.domain.wrongnote.dto.CreateRangeReq;
 import com.testmateback.domain.wrongnote.entity.Range;
 import com.testmateback.domain.wrongnote.repository.RangeRepository;
@@ -14,7 +15,6 @@ public class RangeService {
 
     private final RangeRepository rangeRepository;
     private final HttpSession session;
-    private final static String LOGIN_SESSION_KEY = "USER_ID";
 
     @Autowired
     public RangeService(RangeRepository rangeRepository, HttpSession session) {
@@ -24,7 +24,7 @@ public class RangeService {
 
     // 범위 추가
     public Range createRange(CreateRangeReq createRangeReq) {
-        Long userId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         Range range = new Range();
         range.setUserId(userId);
         range.setRange(createRangeReq.getRange());
@@ -33,7 +33,7 @@ public class RangeService {
 
     // 범위 가져오기
     public List<Range> getRangesByUserId() {
-        Long userId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return rangeRepository.findByUserId(userId);
     }
 
@@ -52,16 +52,5 @@ public class RangeService {
     // 범위 삭제
     public void deleteRange(int rangeId) {
         rangeRepository.deleteById(rangeId);
-    }
-
-    private Long getCurrentUserIdFromSession() {
-        // 세션에서 사용자 ID를 가져오는 로직
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-
-        if (userIdAttribute != null) {
-            return (Long) userIdAttribute;
-        } else {
-            throw new RuntimeException("User not logged in");
-        }
     }
 }

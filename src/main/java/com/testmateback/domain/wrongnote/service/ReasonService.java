@@ -1,5 +1,6 @@
 package com.testmateback.domain.wrongnote.service;
 
+import com.testmateback.domain.util.SessionUtil;
 import com.testmateback.domain.wrongnote.dto.CreateReasonReq;
 import com.testmateback.domain.wrongnote.entity.Reason;
 import com.testmateback.domain.wrongnote.repository.ReasonRepository;
@@ -13,7 +14,6 @@ public class ReasonService {
 
     private final ReasonRepository reasonRepository;
     private final HttpSession session;
-    private final static String LOGIN_SESSION_KEY = "USER_ID";
 
     public ReasonService(ReasonRepository reasonRepository, HttpSession session) {
         this.reasonRepository = reasonRepository;
@@ -22,7 +22,7 @@ public class ReasonService {
 
     // 오답 이유 추가
     public Reason createRange(CreateReasonReq createReasonReq) {
-        Long userId = getCurrentUseridFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         Reason reason = new Reason();
         reason.setUserId(userId);
         reason.setReason(createReasonReq.getReason());
@@ -31,7 +31,7 @@ public class ReasonService {
 
     // 오답 이유 가져오기
     public List<Reason> getReasonsByUserId() {
-        Long userId = getCurrentUseridFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return reasonRepository.findByUserId(userId);
     }
 
@@ -51,14 +51,4 @@ public class ReasonService {
         reasonRepository.deleteById(reasonId);
     }
 
-    private Long getCurrentUseridFromSession() {
-        // 세션에서 사용자 ID를 가져오는 로직
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-
-        if(userIdAttribute != null) {
-            return (Long) userIdAttribute;
-        } else {
-            throw new RuntimeException("User not logged in");
-        }
-    }
 }

@@ -4,6 +4,8 @@ import com.testmateback.domain.wrongnote.dao.WrongNoteFilter;
 import com.testmateback.domain.wrongnote.dto.CreateWrongNoteReq;
 import com.testmateback.domain.wrongnote.entity.WrongNote;
 import com.testmateback.domain.wrongnote.service.WrongNoteService;
+import com.testmateback.global.message.ResponseMessage;
+import com.testmateback.global.message.ResponseMessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,9 @@ public class WrongNoteController {
     private WrongNoteService wrongNoteService;
 
     @PostMapping
-    public WrongNote addWrongNote(@RequestBody CreateWrongNoteReq createWrongNoteReq) {
-        return wrongNoteService.createWrongNote(createWrongNoteReq);
+    public ResponseEntity<ResponseMessage> addWrongNote(@RequestBody CreateWrongNoteReq createWrongNoteReq) {
+        wrongNoteService.createWrongNote(createWrongNoteReq);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
 
     @GetMapping
@@ -43,15 +46,17 @@ public class WrongNoteController {
 
 
     @PutMapping("/{noteId}")
-    public ResponseEntity<WrongNote> updateWrongNote(@PathVariable Long noteId, @RequestBody WrongNote updatedWrongNote) {
-        WrongNote result = wrongNoteService.updateWrongNote(noteId, updatedWrongNote);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<ResponseMessage> updateWrongNote(@PathVariable Long noteId, @RequestBody WrongNote updatedWrongNote) {
+        wrongNoteService.updateWrongNote(noteId, updatedWrongNote);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
+
     }
 
     @DeleteMapping("/{noteId}")
-    public ResponseEntity<Void> deleteWrongNote(@PathVariable Long noteId) {
+    public ResponseEntity<ResponseMessage> deleteWrongNote(@PathVariable Long noteId) {
         wrongNoteService.deleteWrongNote(noteId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_DELETE.getMessage()));
+
     }
     @GetMapping("/top3ranges/{subjectId}")
     public List<String> getTop3RangesBySubjectId(@PathVariable int subjectId) {
