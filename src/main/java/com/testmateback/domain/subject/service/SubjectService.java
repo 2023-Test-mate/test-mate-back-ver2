@@ -121,4 +121,16 @@ public class SubjectService {
         }
     }
 
+    public SubjectInfoDTO getSubjectInfoById(Long subjectId) {
+        // subjectId로 Subject 엔티티를 찾기
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new IllegalArgumentException("Subject not found with id: " + subjectId));
+
+        // 필요한 정보만을 SubjectInfoDTO에 매핑하여 반환
+        return new SubjectInfoDTO(subject.getSubjectId(), subject.getSubjectName(), subject.getImg());
+    }
+
+    public void deleteSubject(Long subjectId) {
+        subjectRepository.deleteById(subjectId);
+    }
 }
