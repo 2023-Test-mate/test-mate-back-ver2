@@ -49,9 +49,9 @@ public class LoginService {
         Optional<User> user = userService.findUserByUserIdAndPassword(loginReq.getUserId(), loginReq.getPassword());
         if (user.isPresent()) {
             session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("{\"message\": \"로그인 되었습니다.\"}");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 되지 않았습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"로그인 되지 않았습니다.\"}");
         }
     }
 

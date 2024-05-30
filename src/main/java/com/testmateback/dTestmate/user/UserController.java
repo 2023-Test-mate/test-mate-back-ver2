@@ -27,10 +27,15 @@ public class UserController {
 
 
         @PostMapping("/api/sign-up")
-        public ResponseEntity<Void> login(@RequestBody SignUpReq signUpReq, HttpSession httpSession) {
-            loginService.signUp(signUpReq, httpSession);
-            Alarm addedAlarm = alarmService.addAlarm();
-            return ResponseEntity.ok().build();
+        public ResponseEntity<String> login(@RequestBody SignUpReq signUpReq, HttpSession httpSession) {
+            try {
+                loginService.signUp(signUpReq, httpSession);
+                Alarm addedAlarm = alarmService.addAlarm();
+                return ResponseEntity.ok("{\"message\": \"Successfully signed up.\"}");
+            } catch (Exception e) {
+                log.error("Error during user sign-up", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to sign up.\"}");
+            }
         }
 
         @PostMapping("/api/login")
@@ -40,18 +45,18 @@ public class UserController {
 
 
         @PostMapping("/api/logout")
-        public ResponseEntity<Void> logout(HttpSession httpSession) {
+        public ResponseEntity<String> logout(HttpSession httpSession) {
             loginService.logout(httpSession);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("{\"message\": \"Successfully logged out.\"}");
         }
 
         @GetMapping("api/user-check")
         public ResponseEntity<String> checkDuplicateUserId(@RequestParam String userId) {
             boolean isDuplicate = userService.isUserIdDuplicate(userId);
             if (isDuplicate) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("User with the same user ID already exists");
+                return ResponseEntity.ok("{\"message\": \"User with the same user ID already exists\"}");
             } else {
-                return ResponseEntity.ok("User ID is available");
+                return ResponseEntity.ok("{\"message\": \"User ID is available\"}");
             }
         }
 
