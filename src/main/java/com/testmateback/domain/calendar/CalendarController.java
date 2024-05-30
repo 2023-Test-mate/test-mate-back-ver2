@@ -3,6 +3,7 @@ package com.testmateback.domain.calendar;
 import com.testmateback.domain.calendar.dto.CreateTestInfoReq;
 import com.testmateback.domain.calendar.entity.Calendar;
 import com.testmateback.domain.calendar.service.CalendarService;
+import com.testmateback.domain.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,18 +27,6 @@ public class CalendarController {
         this.session = session;
     }
 
-    private final static String LOGIN_SESSION_KEY = "USER_ID";
-
-    private Long getCurrentUserIdFromSession() {
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-
-        if (userIdAttribute != null) {
-            return (Long) userIdAttribute;
-        } else {
-            throw new RuntimeException("User not logged in");
-        }
-    }
-
     /*
         @ 달력에서 시험 일정 추가
         post api/calendar
@@ -56,7 +45,7 @@ public class CalendarController {
 
     @GetMapping
     public List<Calendar> getAllCalendarsByUserId() {
-        Long userId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return calendarService.getAllCalendarsByUserId(userId);
     }
 
@@ -69,7 +58,7 @@ public class CalendarController {
     public List<Calendar> getCalendarByUserIdAndDate(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
-        Long userId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return calendarService.getCalendarByUserIdAndDate(userId, date);
     }
 
