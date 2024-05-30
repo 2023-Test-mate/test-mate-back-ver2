@@ -5,6 +5,7 @@ import com.testmateback.domain.subject.entity.Subject;
 import com.testmateback.domain.subject.service.SubjectService;
 import com.testmateback.global.message.ResponseMessage;
 import com.testmateback.global.message.ResponseMessageType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,9 +65,15 @@ public class SubjectController {
         @ 홈에서 로그인한 유저와 학년에 대한 과목 리스트
         get /api/subject/:grade
      */
-    @GetMapping("/{grade}")
-    public List<SubjectInfoDTO> getSubjectInfo(@PathVariable int grade) {
+    @GetMapping("list/{grade}")
+    public List<SubjectInfoDTO> getSubjectsInfo(@PathVariable int grade) {
         return subjectService.getSubjectInfo(grade);
+    }
+
+    @GetMapping("/{subjectId}")
+    public ResponseEntity<SubjectInfoDTO> getSubjectInfoById(@PathVariable Long subjectId) {
+        SubjectInfoDTO subjectInfoDTO = subjectService.getSubjectInfoById(subjectId);
+        return new ResponseEntity<>(subjectInfoDTO, HttpStatus.OK);
     }
 
     /*
@@ -76,5 +83,11 @@ public class SubjectController {
     @GetMapping("home/{subjectId}")
     public SubjectDetailsDTO getSubjectDetails(@PathVariable Long subjectId) {
         return subjectService.getSubjectDetailsById(subjectId);
+    }
+
+    @DeleteMapping("/{subjectId}")
+    public ResponseEntity<ResponseMessage> deleteSubject(@PathVariable Long subjectId) {
+        subjectService.deleteSubject(subjectId);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_DELETE.getMessage()));
     }
 }
