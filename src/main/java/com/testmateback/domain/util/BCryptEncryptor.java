@@ -1,4 +1,4 @@
-package com.testmateback.global.util;
+package com.testmateback.domain.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;

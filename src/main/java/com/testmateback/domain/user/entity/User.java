@@ -1,6 +1,6 @@
 package com.testmateback.domain.user.entity;
 
-import com.testmateback.global.util.Encryptor;
+import com.testmateback.domain.util.Encryptor;
 import jakarta.persistence.*;
 import lombok.*;
 

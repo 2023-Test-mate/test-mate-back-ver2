@@ -4,7 +4,7 @@ import com.testmateback.domain.user.dto.UserDetailsDTO;
 import com.testmateback.domain.user.dto.UserIdRes;
 import com.testmateback.domain.user.entity.User;
 import com.testmateback.domain.user.repository.UserRepository;
-import com.testmateback.global.util.Encryptor;
+import com.testmateback.domain.util.Encryptor;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserService {
+
 
     private final Encryptor encryptor;
     private final UserRepository userRepository;

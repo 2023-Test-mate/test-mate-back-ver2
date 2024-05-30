@@ -77,7 +77,6 @@ public class UserController {
         public UserDetailsDTO getUserDetails() {
             // 서비스를 통해 사용자 정보를 가져오기
             UserDetailsDTO userDetailsDTO = userService.getUserDetails();
-
             return userDetailsDTO;
         }
 

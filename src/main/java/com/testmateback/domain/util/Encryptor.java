@@ -1,4 +1,4 @@
-package com.testmateback.global.util;
+package com.testmateback.domain.util;
 
 public interface Encryptor {
     public String encrypt(String origin);
