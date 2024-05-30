@@ -3,6 +3,8 @@ package com.testmateback.domain.subject;
 import com.testmateback.domain.subject.dto.*;
 import com.testmateback.domain.subject.entity.Subject;
 import com.testmateback.domain.subject.service.SubjectService;
+import com.testmateback.global.message.ResponseMessage;
+import com.testmateback.global.message.ResponseMessageType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +25,9 @@ public class SubjectController {
         post api/subject
      */
     @PostMapping
-    public ResponseEntity<Subject> createSubject(@RequestBody CreateSubject createSubject) {
+    public ResponseEntity<ResponseMessage> createSubject(@RequestBody CreateSubject createSubject) {
         Subject newSubject = subjectService.createSubject(createSubject);
-        return ResponseEntity.ok(newSubject);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
 
     /*
@@ -33,9 +35,9 @@ public class SubjectController {
         patch api/subject/name/:subjectId
     */
     @PatchMapping("name/{subjectId}")
-        public ResponseEntity<Subject> updateSubject(@PathVariable Long subjectId, @RequestBody UpdateSubjectReq updateSubjectReq){
+        public ResponseEntity<ResponseMessage> updateSubject(@PathVariable Long subjectId, @RequestBody UpdateSubjectReq updateSubjectReq){
         Subject updateSubject = subjectService.updateSubject(subjectId, updateSubjectReq);
-        return ResponseEntity.ok(updateSubject);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
 
     /*
@@ -43,9 +45,9 @@ public class SubjectController {
         patch : patch api/subject/record/:subjectId
     */
     @PatchMapping("record/{subjectId}")
-    public ResponseEntity<Subject> updateTestRecord(@PathVariable Long subjectId, @RequestBody CreateTestRecordReq createTestRecordReq) {
+    public ResponseEntity<ResponseMessage> updateTestRecord(@PathVariable Long subjectId, @RequestBody CreateTestRecordReq createTestRecordReq) {
         Subject updatedRecord = subjectService.updateTestRecord(subjectId, createTestRecordReq);
-        return ResponseEntity.ok(updatedRecord);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
 
     /*
@@ -53,9 +55,9 @@ public class SubjectController {
         patch api/subject/fail/:subjectId
     */
     @PatchMapping("fail/{subjectId}")
-    public ResponseEntity<Subject> updateFail(@PathVariable Long subjectId, @RequestBody CreateFailReq createFailReq) {
+    public ResponseEntity<ResponseMessage> updateFail(@PathVariable Long subjectId, @RequestBody CreateFailReq createFailReq) {
         Subject updateFailed = subjectService.updateFail(subjectId, createFailReq);
-        return ResponseEntity.ok(updateFailed);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
 
     /*

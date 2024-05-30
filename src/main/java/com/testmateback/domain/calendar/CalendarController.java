@@ -4,6 +4,8 @@ import com.testmateback.domain.calendar.dto.CreateTestInfoReq;
 import com.testmateback.domain.calendar.entity.Calendar;
 import com.testmateback.domain.calendar.service.CalendarService;
 import com.testmateback.domain.util.SessionUtil;
+import com.testmateback.global.message.ResponseMessage;
+import com.testmateback.global.message.ResponseMessageType;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,9 +34,9 @@ public class CalendarController {
         post api/calendar
      */
     @PostMapping
-    public ResponseEntity<Calendar> createTestInfo(@RequestBody CreateTestInfoReq createTestInfoReq) {
-        Calendar newInfo = calendarService.addTestInfo(createTestInfoReq);
-        return ResponseEntity.ok(newInfo);
+    public ResponseEntity<ResponseMessage> createTestInfo(@RequestBody CreateTestInfoReq createTestInfoReq) {
+        calendarService.addTestInfo(createTestInfoReq);
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
 
     /*
@@ -67,9 +69,10 @@ public class CalendarController {
         delete api/calendar/:calendarId
     */
     @DeleteMapping("/{calendarId}")
-    public ResponseEntity<?> deleteCalendar(@PathVariable Long calendarId) {
+    public ResponseEntity<ResponseMessage> deleteCalendar(@PathVariable Long calendarId) {
         calendarService.deleteCalendar(calendarId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_DELETE.getMessage()));
+
     }
 
 }

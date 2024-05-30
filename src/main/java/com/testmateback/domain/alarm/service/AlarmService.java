@@ -1,5 +1,6 @@
 package com.testmateback.domain.alarm.service;
 
+import com.testmateback.domain.alarm.dao.AlarmStatusResponse;
 import com.testmateback.domain.alarm.entity.Alarm;
 import com.testmateback.domain.alarm.repository.AlarmRepository;
 import com.testmateback.domain.util.SessionUtil;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlarmService{
 
-    private static AlarmRepository alarmRepository;
+    private final AlarmRepository alarmRepository;
     private final HttpSession session;
 
     public AlarmService(AlarmRepository alarmRepository, HttpSession session) {
@@ -25,12 +26,18 @@ public class AlarmService{
         return alarmRepository.save(alarm);
     }
 
-    public boolean getAlarmStatusByUserId(Long userId) {
+    public AlarmStatusResponse getAlarmStatusByUserId() {
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
+        AlarmStatusResponse response = new AlarmStatusResponse();
         Alarm entity = alarmRepository.findByUserId(userId);
-        return (entity != null) ? entity.isCompleted() : false ;
+        response.setStatus(entity.isCompleted());
+        return response;
     }
 
-    public void updateCompletedValue(Long userId) {
+
+
+    public void updateCompletedValue() {
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         Alarm entity = alarmRepository.findByUserId(userId);
         if (entity != null) {
             entity.setCompleted(!entity.isCompleted());

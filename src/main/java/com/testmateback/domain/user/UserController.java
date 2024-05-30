@@ -5,11 +5,11 @@ import com.testmateback.domain.alarm.service.AlarmService;
 import com.testmateback.domain.user.dto.*;
 import com.testmateback.domain.user.service.LoginService;
 import com.testmateback.domain.user.service.UserService;
+import com.testmateback.global.message.ResponseMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,36 +27,37 @@ public class UserController {
 
 
         @PostMapping("/api/sign-up")
-        public ResponseEntity<String> login(@RequestBody SignUpReq signUpReq, HttpSession httpSession) {
+        public ResponseEntity<ResponseMessage> login(@RequestBody SignUpReq signUpReq, HttpSession httpSession) {
             try {
                 loginService.signUp(signUpReq, httpSession);
                 Alarm addedAlarm = alarmService.addAlarm();
-                return ResponseEntity.ok("{\"message\": \"Successfully signed up.\"}");
+                return ResponseEntity.ok(new ResponseMessage("Successfully signed up."));
             } catch (Exception e) {
                 log.error("Error during user sign-up", e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Failed to sign up.\"}");
+                return ResponseEntity.ok(new ResponseMessage("Failed to sign up"));
             }
         }
 
         @PostMapping("/api/login")
-        public ResponseEntity<String> login(@RequestBody LoginReq loginReq, HttpSession httpSession, HttpServletResponse httpServletResponse) {
+        public ResponseEntity<ResponseMessage> login(@RequestBody LoginReq loginReq, HttpSession httpSession, HttpServletResponse httpServletResponse) {
             return loginService.login(loginReq, httpSession);
         }
 
 
         @PostMapping("/api/logout")
-        public ResponseEntity<String> logout(HttpSession httpSession) {
+        public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) {
             loginService.logout(httpSession);
-            return ResponseEntity.ok("{\"message\": \"Successfully logged out.\"}");
+
+            return ResponseEntity.ok(new ResponseMessage("Successfully logged out."));
         }
 
         @GetMapping("api/user-check")
-        public ResponseEntity<String> checkDuplicateUserId(@RequestParam String userId) {
+        public ResponseEntity<ResponseMessage> checkDuplicateUserId(@RequestParam String userId) {
             boolean isDuplicate = userService.isUserIdDuplicate(userId);
             if (isDuplicate) {
-                return ResponseEntity.ok("{\"message\": \"User with the same user ID already exists\"}");
+                return ResponseEntity.ok(new ResponseMessage("User with the same user ID already exists"));
             } else {
-                return ResponseEntity.ok("{\"message\": \"User ID is available\"}");
+                return ResponseEntity.ok(new ResponseMessage("User ID is available"));
             }
         }
 

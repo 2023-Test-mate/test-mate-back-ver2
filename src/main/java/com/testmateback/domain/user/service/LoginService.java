@@ -4,6 +4,7 @@ import com.testmateback.domain.user.dto.LoginReq;
 import com.testmateback.domain.user.dto.SignUpReq;
 import com.testmateback.domain.user.entity.User;
 import com.testmateback.domain.wrongnote.DataLoader;
+import com.testmateback.global.message.ResponseMessage;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +45,15 @@ public class LoginService {
     }
 
 
-    public ResponseEntity<String> login(LoginReq loginReq, HttpSession session) {
+    public ResponseEntity<ResponseMessage> login(LoginReq loginReq, HttpSession session) {
         Long userId = (Long) session.getAttribute(LOGIN_SESSION_KEY);
         Optional<User> user = userService.findUserByUserIdAndPassword(loginReq.getUserId(), loginReq.getPassword());
         if (user.isPresent()) {
             session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
-            return ResponseEntity.ok().body("{\"message\": \"로그인 되었습니다.\"}");
+            return ResponseEntity.ok(new ResponseMessage("로그인 되었습니다."));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"로그인 되지 않았습니다.\"}");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("로그인 되지 않았습니다."));
+
         }
     }
 
