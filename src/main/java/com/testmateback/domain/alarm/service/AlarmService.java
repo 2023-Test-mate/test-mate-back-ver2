@@ -2,6 +2,7 @@ package com.testmateback.domain.alarm.service;
 
 import com.testmateback.domain.alarm.entity.Alarm;
 import com.testmateback.domain.alarm.repository.AlarmRepository;
+import com.testmateback.domain.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ public class AlarmService{
 
     private static AlarmRepository alarmRepository;
     private final HttpSession session;
-    private final static String LOGIN_SESSION_KEY = "USER_ID";
 
     public AlarmService(AlarmRepository alarmRepository, HttpSession session) {
         this.alarmRepository = alarmRepository;
@@ -18,9 +18,9 @@ public class AlarmService{
     }
 
     public Alarm addAlarm() {
-        Long currentUserId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         Alarm alarm = new Alarm();
-        alarm.setUserId(currentUserId);
+        alarm.setUserId(userId);
         alarm.setCompleted(true);
         return alarmRepository.save(alarm);
     }
@@ -40,14 +40,5 @@ public class AlarmService{
         }
     }
 
-
-    private Long getCurrentUserIdFromSession() {
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-        if (userIdAttribute != null) {
-            return (Long) userIdAttribute;
-        } else {
-            throw new RuntimeException("User not logged in");
-        }
-    }
 
 }
