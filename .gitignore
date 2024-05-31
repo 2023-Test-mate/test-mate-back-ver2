@@ -37,6 +37,7 @@ out/
 .vscode/
 
 ### db connect ###
-src/main/resources/application.properties
+src/main/resources/application-aws.yml
 !/.gitignore
 application.yml
+application-aws.yml
