@@ -9,6 +9,8 @@ logging:
 
 # database
 spring:
+  profiles:
+    include: aws
   h2:
     console:
       enabled: true
