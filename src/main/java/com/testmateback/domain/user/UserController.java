@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Slf4j
@@ -81,6 +84,11 @@ public class UserController {
             return userDetailsDTO;
         }
 
+        @PostMapping("api/user/profile")
+        public ResponseEntity<ResponseMessage> uploadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
+            String imageUrl = userService.uploadUserProfileImage(file);
+            return ResponseEntity.ok(new ResponseMessage("Profile image uploaded successfully."));
+        }
     }
 
 }

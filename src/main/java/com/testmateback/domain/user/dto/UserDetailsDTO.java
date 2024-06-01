@@ -11,4 +11,5 @@ import lombok.Setter;
 public class UserDetailsDTO {
     private final String name;
     private final int grade;
+    private final String profile;
 }
