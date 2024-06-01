@@ -37,7 +37,7 @@ public class SubjectController {
         patch api/subject/name/:subjectId
     */
     @PatchMapping("name/{subjectId}")
-        public ResponseEntity<ResponseMessage> updateSubject(@PathVariable Long subjectId, @ModelAttribute UpdateSubjectReq updateSubjectReq){
+        public ResponseEntity<ResponseMessage> updateSubject(@PathVariable Long subjectId, @ModelAttribute UpdateSubjectReq updateSubjectReq) throws IOException {
         Subject updateSubject = subjectService.updateSubject(subjectId, updateSubjectReq);
         return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }

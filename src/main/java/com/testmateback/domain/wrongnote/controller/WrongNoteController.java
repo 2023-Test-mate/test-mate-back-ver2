@@ -21,7 +21,7 @@ public class WrongNoteController {
     private WrongNoteService wrongNoteService;
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> addWrongNote(@RequestBody CreateWrongNoteReq createWrongNoteReq) {
+    public ResponseEntity<ResponseMessage> addWrongNote(@ModelAttribute CreateWrongNoteReq createWrongNoteReq) {
         wrongNoteService.createWrongNote(createWrongNoteReq);
         return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
