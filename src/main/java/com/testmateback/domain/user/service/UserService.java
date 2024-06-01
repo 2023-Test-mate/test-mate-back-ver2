@@ -5,13 +5,17 @@ import com.testmateback.domain.user.dto.UserIdRes;
 import com.testmateback.domain.user.entity.User;
 import com.testmateback.domain.user.repository.UserRepository;
 import com.testmateback.domain.util.Encryptor;
+import com.testmateback.domain.util.SessionUtil;
+import com.testmateback.global.service.S3Service;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -21,15 +25,16 @@ public class UserService {
 
     private final Encryptor encryptor;
     private final UserRepository userRepository;
-    private static final String LOGIN_SESSION_KEY = "USER_ID";
     private final HttpSession session;
+    private final S3Service s3Service;
 
 
     @Autowired
-    public UserService(Encryptor encryptor, UserRepository userRepository, HttpSession session) {
+    public UserService(Encryptor encryptor, UserRepository userRepository, HttpSession session, S3Service s3Service) {
         this.encryptor = encryptor;
         this.userRepository = userRepository;
         this.session = session;
+        this.s3Service = s3Service;
     }
 
     @Transactional
@@ -64,9 +69,9 @@ public class UserService {
 
     // 입력한 유저의 이름과 학년 정보 가져오기
     public UserDetailsDTO getUserDetails() {
-        Long userId = getCurrentUserIdFromSession();
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return userRepository.findById(userId)
-                .map(user -> new UserDetailsDTO(user.getName(), user.getGrade()))
+                .map(user -> new UserDetailsDTO(user.getName(), user.getGrade(), user.getProfile()))
                 .orElse(null);
     }
 
@@ -89,16 +94,19 @@ public class UserService {
 //        }
 //    }
 
-
-
-    private Long getCurrentUserIdFromSession() {
-        // 세션에서 사용자 ID를 가져오는 로직
-        Object userIdAttribute = session.getAttribute(LOGIN_SESSION_KEY);
-
-        if (userIdAttribute != null) {
-            return (Long) userIdAttribute;
+    public String uploadUserProfileImage(MultipartFile file) throws IOException {
+        Long userId = SessionUtil.getCurrentUserIdFromSession(session);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String imageUrl = s3Service.uploadImageToS3(file);
+            user.setProfile(imageUrl);
+            userRepository.save(user);
+            return imageUrl;
         } else {
-            throw new RuntimeException("User not logged in");
+            throw new RuntimeException("User not found");
         }
     }
+
+
 }

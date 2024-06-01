@@ -8,9 +8,11 @@ import com.testmateback.domain.subject.entity.Subject;
 import com.testmateback.domain.subject.repository.SubjectRepository;
 import com.testmateback.domain.user.repository.UserRepository;
 import com.testmateback.domain.util.SessionUtil;
+import com.testmateback.global.service.S3Service;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,33 +24,41 @@ public class SubjectService {
     private final CalendarRepository calendarRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
+    private final S3Service s3Service;
 
-    public SubjectService(SubjectRepository subjectRepository, CalendarRepository calendarRepository, UserRepository userRepository, HttpSession session) {
+    public SubjectService(SubjectRepository subjectRepository, CalendarRepository calendarRepository, UserRepository userRepository, HttpSession session, S3Service s3Service) {
         this.subjectRepository = subjectRepository;
         this.calendarRepository = calendarRepository;
         this.userRepository = userRepository;
         this.session = session;
+        this.s3Service = s3Service;
     }
 
     // 홈 - 과목 생성
-    public Subject createSubject(CreateSubject createSubject) {
+    public Subject createSubject(CreateSubject createSubject) throws IOException {
         Long currentUserId = SessionUtil.getCurrentUserIdFromSession(session);
         Subject subject = new Subject();
         subject.setUserId(currentUserId);
         subject.setSubjectName(createSubject.getSubjectName());
         subject.setGrade(createSubject.getGrade());
-        subject.setImg(createSubject.getImg());
+
+        // 이미지를 S3에 업로드하고 URL을 받아옴
+        String imageUrl = s3Service.uploadImageToS3(createSubject.getImg());
+        subject.setImg(imageUrl); // 업로드된 이미지의 URL을 저장
 
         return subjectRepository.save(subject);
     }
 
     // 홈 - 과목 편집
-    public Subject updateSubject(Long subjectId, UpdateSubjectReq updateSubjectReq) {
+    public Subject updateSubject(Long subjectId, UpdateSubjectReq updateSubjectReq) throws IOException {
         Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
 
         subject.setSubjectName(updateSubjectReq.getSubjectName());
-        subject.setImg(updateSubjectReq.getImg());
+
+        // 이미지를 S3에 업로드하고 URL을 받아옴
+        String imageUrl = s3Service.uploadImageToS3(updateSubjectReq.getImg());
+        subject.setImg(imageUrl);
         return subjectRepository.save(subject);
     }
 
@@ -131,6 +141,13 @@ public class SubjectService {
     }
 
     public void deleteSubject(Long subjectId) {
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new RuntimeException("과목을 찾을 수 없습니다. "));
+
+        if (subject.getImg() != null) {
+            s3Service.deleteImage(subject.getImg());
+        }
+
         subjectRepository.deleteById(subjectId);
     }
 }

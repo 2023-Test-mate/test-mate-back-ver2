@@ -32,6 +32,9 @@ public class User {
     @Column(nullable = false)
     private int grade;
 
+    @Column
+    private String profile;
+
 
     public User(String userId, String name, String email, int grade, String password) {
         this.userId = userId;
