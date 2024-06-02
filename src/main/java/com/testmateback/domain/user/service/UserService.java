@@ -71,7 +71,7 @@ public class UserService {
     public UserDetailsDTO getUserDetails() {
         Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         return userRepository.findById(userId)
-                .map(user -> new UserDetailsDTO(user.getName(), user.getGrade(), user.getProfile()))
+                .map(user -> new UserDetailsDTO(user.getName(), user.getGrade()))
                 .orElse(null);
     }
 

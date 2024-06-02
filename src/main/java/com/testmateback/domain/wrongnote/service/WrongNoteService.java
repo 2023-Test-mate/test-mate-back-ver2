@@ -6,20 +6,26 @@ import com.testmateback.domain.wrongnote.dao.WrongNoteFilter;
 import com.testmateback.domain.wrongnote.dto.CreateWrongNoteReq;
 import com.testmateback.domain.wrongnote.entity.WrongNote;
 import com.testmateback.domain.wrongnote.repository.WrongNoteRepository;
+import com.testmateback.global.service.S3Service;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class WrongNoteService {
 
     private final WrongNoteRepository wrongNoteRepository;
+    private final S3Service s3Service;
 
-    public WrongNoteService(WrongNoteRepository wrongNoteRepository) {
+    public WrongNoteService(WrongNoteRepository wrongNoteRepository, S3Service s3Service) {
         this.wrongNoteRepository = wrongNoteRepository;
+        this.s3Service = s3Service;
     }
 
     // 오답 노트 생성
@@ -29,9 +35,27 @@ public class WrongNoteService {
         wrongNote.setGrade(createWrongNoteReq.getGrade());
         wrongNote.setTitle(createWrongNoteReq.getTitle());
         wrongNote.setStyles(createWrongNoteReq.getStyles());
-        wrongNote.setImgs(createWrongNoteReq.getImgs());
         wrongNote.setReason(createWrongNoteReq.getReason());
         wrongNote.setRange(createWrongNoteReq.getRange());
+
+        try {
+            // 다중 이미지를 S3에 업로드하고 그 URL들을 리스트로 가져옴
+            List<String> imgUrls = createWrongNoteReq.getImgs().stream()
+                    .map(img -> {
+                        try {
+                            return s3Service.uploadImageToS3(img);
+                        } catch (IOException e) {
+                            throw new RuntimeException("Error uploading image to S3", e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            // 이미지 URL들을 wrongNote에 설정
+            wrongNote.setImgs(imgUrls.toString());
+        } catch (RuntimeException e) {
+            log.error("Error uploading image to S3", e);
+            throw e;
+        }
 
         return wrongNoteRepository.save(wrongNote);
     }
@@ -72,20 +96,26 @@ public class WrongNoteService {
 
         if (existingWrongNoteOptional.isPresent()) {
             WrongNote existingWrongNote = existingWrongNoteOptional.get();
-            existingWrongNote.setNoteId(updatedWrongNote.getNoteId());
             existingWrongNote.setSubjectId(updatedWrongNote.getSubjectId());
             existingWrongNote.setGrade(updatedWrongNote.getGrade());
             existingWrongNote.setTitle(updatedWrongNote.getTitle());
             existingWrongNote.setStyles(updatedWrongNote.getStyles());
-            existingWrongNote.setImgs(updatedWrongNote.getImgs());
             existingWrongNote.setReason(updatedWrongNote.getReason());
             existingWrongNote.setRange(updatedWrongNote.getRange());
+
+            // 이미지 URL을 변경하는 경우
+            if (updatedWrongNote.getImgs() != null) {
+                // 기존 이미지 삭제 (옵셔널)
+                s3Service.deleteImage(existingWrongNote.getImgs());
+                existingWrongNote.setImgs(updatedWrongNote.getImgs());
+            }
 
             return wrongNoteRepository.save(existingWrongNote);
         } else {
             throw new EntityNotFoundException("해당 ID의 WrongNote를 찾을 수 없습니다: " + noteId);
         }
     }
+
 
     // 오답 노트 삭제
     public void deleteWrongNote(Long noteId) {
