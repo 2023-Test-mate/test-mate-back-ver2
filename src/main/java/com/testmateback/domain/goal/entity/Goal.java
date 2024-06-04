@@ -2,7 +2,10 @@ package com.testmateback.domain.goal.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,5 +29,9 @@ public class Goal {
     private String goal;
     @Column(nullable = false, unique = false)
     private boolean completed;
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedDate;
 
 }
