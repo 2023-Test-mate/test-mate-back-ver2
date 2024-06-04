@@ -41,10 +41,7 @@ public class SubjectService {
         subject.setUserId(currentUserId);
         subject.setSubjectName(createSubject.getSubjectName());
         subject.setGrade(createSubject.getGrade());
-
-        // 이미지를 S3에 업로드하고 URL을 받아옴
-        String imageUrl = s3Service.uploadImageToS3(createSubject.getImg());
-        subject.setImg(imageUrl); // 업로드된 이미지의 URL을 저장
+        subject.setImg(createSubject.getImg());
 
         return subjectRepository.save(subject);
     }
