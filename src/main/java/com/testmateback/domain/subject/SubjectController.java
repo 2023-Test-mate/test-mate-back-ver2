@@ -1,5 +1,7 @@
 package com.testmateback.domain.subject;
 
+import com.testmateback.domain.goal.dto.GoalSubjectsDTO;
+import com.testmateback.domain.goal.service.GoalService;
 import com.testmateback.domain.subject.dto.*;
 import com.testmateback.domain.subject.entity.Subject;
 import com.testmateback.domain.subject.service.SubjectService;
@@ -17,9 +19,11 @@ import java.util.List;
 public class SubjectController {
 
     private final SubjectService subjectService;
+    private final GoalService goalService;
 
-    public SubjectController(SubjectService subjectService) {
+    public SubjectController(SubjectService subjectService, GoalService goalService) {
         this.subjectService = subjectService;
+        this.goalService = goalService;
     }
 
     /*
@@ -84,6 +88,12 @@ public class SubjectController {
     @GetMapping("home/{subjectId}")
     public SubjectDetailsDTO getSubjectDetails(@PathVariable Long subjectId) {
         return subjectService.getSubjectDetailsById(subjectId);
+    }
+
+    @GetMapping("/gaol/{grade}")
+    public ResponseEntity<List<GoalSubjectsDTO>> getSubjectsByGrade(@PathVariable int grade) {
+        List<GoalSubjectsDTO> subjects = goalService.getSubjectInfo(grade);
+        return ResponseEntity.ok(subjects);
     }
 
     @DeleteMapping("/{subjectId}")
