@@ -1,10 +1,11 @@
 package com.testmateback.domain.user.service;
 
+import com.testmateback.domain.user.dao.LoginResponse;
 import com.testmateback.domain.user.dto.LoginReq;
 import com.testmateback.domain.user.dto.SignUpReq;
+import com.testmateback.domain.user.dto.UserDetailsDTO;
 import com.testmateback.domain.user.entity.User;
 import com.testmateback.domain.wrongnote.DataLoader;
-import com.testmateback.global.message.ResponseMessage;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -45,15 +47,16 @@ public class LoginService {
     }
 
 
-    public ResponseEntity<ResponseMessage> login(LoginReq loginReq, HttpSession session) {
-        Long userId = (Long) session.getAttribute(LOGIN_SESSION_KEY);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginReq loginReq, HttpSession session) {
         Optional<User> user = userService.findUserByUserIdAndPassword(loginReq.getUserId(), loginReq.getPassword());
         if (user.isPresent()) {
             session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
-            return ResponseEntity.ok(new ResponseMessage("로그인 되었습니다."));
+            UserDetailsDTO userDetails = new UserDetailsDTO(user.get().getName(), user.get().getGrade());
+            LoginResponse response = new LoginResponse("로그인 되었습니다.", userDetails);
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("로그인 되지 않았습니다."));
-
+            LoginResponse response = new LoginResponse("로그인 되지 않았습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
