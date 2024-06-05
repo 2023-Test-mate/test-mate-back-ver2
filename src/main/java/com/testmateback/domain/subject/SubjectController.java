@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,7 +30,7 @@ public class SubjectController {
         post api/subject
      */
     @PostMapping
-    public ResponseEntity<ResponseMessage> createSubject(@ModelAttribute CreateSubject createSubject) throws IOException {
+    public ResponseEntity<ResponseMessage> createSubject(@RequestBody CreateSubject createSubject) {
         Subject newSubject = subjectService.createSubject(createSubject);
         return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_CREATE.getMessage()));
     }
@@ -41,7 +40,7 @@ public class SubjectController {
         patch api/subject/name/:subjectId
     */
     @PatchMapping("name/{subjectId}")
-        public ResponseEntity<ResponseMessage> updateSubject(@PathVariable Long subjectId, @ModelAttribute UpdateSubjectReq updateSubjectReq) throws IOException {
+        public ResponseEntity<ResponseMessage> updateSubject(@PathVariable Long subjectId, @RequestBody UpdateSubjectReq updateSubjectReq)  {
         Subject updateSubject = subjectService.updateSubject(subjectId, updateSubjectReq);
         return ResponseEntity.ok(new ResponseMessage(ResponseMessageType.SUCCESS_UPDATE.getMessage()));
     }
