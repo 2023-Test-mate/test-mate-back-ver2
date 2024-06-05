@@ -12,7 +12,6 @@ import com.testmateback.global.service.S3Service;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class SubjectService {
     }
 
     // 홈 - 과목 생성
-    public Subject createSubject(CreateSubject createSubject) throws IOException {
+    public Subject createSubject(CreateSubject createSubject) {
         Long currentUserId = SessionUtil.getCurrentUserIdFromSession(session);
         Subject subject = new Subject();
         subject.setUserId(currentUserId);
@@ -47,15 +46,12 @@ public class SubjectService {
     }
 
     // 홈 - 과목 편집
-    public Subject updateSubject(Long subjectId, UpdateSubjectReq updateSubjectReq) throws IOException {
+    public Subject updateSubject(Long subjectId, UpdateSubjectReq updateSubjectReq) {
         Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
 
         subject.setSubjectName(updateSubjectReq.getSubjectName());
-
-        // 이미지를 S3에 업로드하고 URL을 받아옴
-        String imageUrl = s3Service.uploadImageToS3(updateSubjectReq.getImg());
-        subject.setImg(imageUrl);
+        subject.setImg(updateSubjectReq.getImg());
         return subjectRepository.save(subject);
     }
 
