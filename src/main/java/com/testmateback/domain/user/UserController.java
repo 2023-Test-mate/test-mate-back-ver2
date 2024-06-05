@@ -2,6 +2,7 @@ package com.testmateback.domain.user;
 
 import com.testmateback.domain.alarm.entity.Alarm;
 import com.testmateback.domain.alarm.service.AlarmService;
+import com.testmateback.domain.user.dao.LoginResponse;
 import com.testmateback.domain.user.dto.*;
 import com.testmateback.domain.user.service.LoginService;
 import com.testmateback.domain.user.service.UserService;
@@ -42,7 +43,7 @@ public class UserController {
         }
 
         @PostMapping("/api/login")
-        public ResponseEntity<ResponseMessage> login(@RequestBody LoginReq loginReq, HttpSession httpSession, HttpServletResponse httpServletResponse) {
+        public ResponseEntity<LoginResponse> login(@RequestBody LoginReq loginReq, HttpSession httpSession, HttpServletResponse httpServletResponse) {
             return loginService.login(loginReq, httpSession);
         }
 
