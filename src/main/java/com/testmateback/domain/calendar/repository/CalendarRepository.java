@@ -1,6 +1,5 @@
 package com.testmateback.domain.calendar.repository;
 
-import com.testmateback.domain.alarm.dao.NewAlarmResponse;
 import com.testmateback.domain.calendar.entity.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,4 +15,6 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
     List<Calendar> findByUserIdAndDate(Long userId, LocalDate date);
 
     List<Calendar> findCalendarByUserIdAndDate(Long userId, LocalDate date);
+
+    List<Calendar> findCalendarByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate);
 }
