@@ -1,4 +1,4 @@
-package com.testmateback.domain.alarm.dao;
+package com.testmateback.domain.alarm.dto;
 
 import lombok.Data;
 
