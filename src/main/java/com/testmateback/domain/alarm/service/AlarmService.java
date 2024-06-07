@@ -9,7 +9,6 @@ import com.testmateback.domain.calendar.entity.Calendar;
 import com.testmateback.domain.calendar.repository.CalendarRepository;
 import com.testmateback.domain.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,7 +45,6 @@ public class AlarmService {
         return response;
     }
 
-
     public void updateCompletedValue() {
         Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         Alarm entity = alarmRepository.findByUserId(userId);
@@ -62,9 +60,11 @@ public class AlarmService {
         Long userId = SessionUtil.getCurrentUserIdFromSession(session);
         LocalDate date = LocalDate.now().plusDays(1);
         List<Calendar> calendars = calendarRepository.findCalendarByUserIdAndDate(userId, date);
+        // 예외를 던지지 않고 빈 리스트를 반환
         if (calendars.isEmpty()) {
-            throw new RuntimeException("No alarm tomorrow");
+            return new ArrayList<>(); // 빈 리스트 반환
         }
+
         return calendars.stream()
                 .map(calendar -> new NewAlarmResponse(calendar.getSubject(), calendar.getDate()))
                 .collect(Collectors.toList());
@@ -77,14 +77,13 @@ public class AlarmService {
         LocalDate startDate = endDate.minusDays(6); // 7일 전
 
         List<Calendar> calendars = calendarRepository.findCalendarByUserIdAndDateBetween(userId, startDate, endDate);
+        // 예외를 던지지 않고 빈 리스트를 반환
         if (calendars.isEmpty()) {
-            throw new RuntimeException("No alarm recent 7days");
+            return new ArrayList<>(); // 빈 리스트 반환
         }
+
         return calendars.stream()
                 .map(calendar -> new RecentAlarmResponse(calendar.getSubject(), calendar.getDate()))
                 .collect(Collectors.toList());
     }
-
-
-
 }
