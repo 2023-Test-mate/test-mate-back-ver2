@@ -31,6 +31,10 @@ repositories {
 	mavenCentral()
 }
 
+bootJar {
+	archiveFileName = '2024-tm-server.jar'
+}
+
 // JAR 파일 생성 설정
 jar {
 	enabled = false // JAR 파일 생성 비활성화
@@ -42,9 +46,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-	implementation 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
+	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Apache License 2.04
@@ -55,5 +58,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform() // JUnit 테스트 사용 설정
 }
-
-
