@@ -27,7 +27,12 @@ public class WrongNote {
 
     private String imgs;
     private String styles;
+
+    @Column(name = "note_reason")
     private String reason;
+
+    @Column(name = "note_range")
     private String range;
+
 
 }

@@ -39,5 +39,5 @@ out/
 ### db connect ###
 src/main/resources/application-aws.yml
 !/.gitignore
-application.yml
 application-aws.yml
+.env

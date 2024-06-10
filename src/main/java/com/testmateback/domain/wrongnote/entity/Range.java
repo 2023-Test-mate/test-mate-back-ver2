@@ -1,8 +1,6 @@
 package com.testmateback.domain.wrongnote.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,6 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@Table(name = "ranges")
 public class Range {
     @Id
     @GeneratedValue
@@ -18,5 +17,7 @@ public class Range {
 
     private Long userId;
 
+    @Column(name = "ranges")
     private String range;
+
 }
