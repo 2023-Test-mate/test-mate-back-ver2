@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
@@ -17,17 +16,17 @@ import java.time.LocalDateTime;
 @Table(name = "goal")
 public class Goal {
     @Id
-    @GeneratedValue
-    @Column(nullable = false, unique = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long goalId;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private int subjectId;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private int semester;
-    @Column(nullable = false, unique = false)
-    private String goal;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
+    private String goalText;
+    @Column(nullable = false)
     private boolean completed;
 
     @LastModifiedDate
