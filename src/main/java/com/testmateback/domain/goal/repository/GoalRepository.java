@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findBySubjectIdAndSemester(int subjectId, int semester);
 
-    @Query("SELECT g FROM Goal g WHERE g.subjectId = :subjectId ORDER BY g.lastModifiedDate DESC")
-    Optional<Goal> findTopBySubjectIdOrderByLastModifiedDateDesc(@Param("subjectId") int subjectId);
+    @Query("SELECT g.semester FROM Goal g WHERE g.subjectId = :subjectId ORDER BY g.lastModifiedDate DESC")
+    Optional<Integer> findRecentSemesterBySubjectId(@Param("subjectId") int subjectId);
+
+
 }
